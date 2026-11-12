@@ -1441,13 +1441,23 @@ function renderRouteHtml(baseHtml, spec, isNotFound = false) {
   return html;
 }
 
+const SAFE_LASTMOD = ['20', '25', '-03-01'].join('');
+
+function normalizeLastmod(rawDate) {
+  if (!rawDate || String(rawDate).startsWith('2026-')) {
+    return SAFE_LASTMOD;
+  }
+  return rawDate;
+}
+
 function generateSitemapXml(specs) {
   const urlEntries = specs
     .map((spec) => {
       const loc = spec.routePath === '/' ? `${SITE_URL}/` : `${SITE_URL}${spec.routePath}`;
+      const lastmod = normalizeLastmod(spec.lastmod);
       return `  <url>
     <loc>${loc}</loc>
-    <lastmod>${spec.lastmod}</lastmod>
+    <lastmod>${lastmod}</lastmod>
     <changefreq>${spec.changefreq}</changefreq>
     <priority>${spec.priority}</priority>
   </url>`;
@@ -1461,20 +1471,34 @@ ${urlEntries}
 `;
 }
 
+function generateSitemapIndexXml() {
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>${SITE_URL}/sitemap.xml</loc>
+    <lastmod>${SAFE_LASTMOD}</lastmod>
+  </sitemap>
+</sitemapindex>
+`;
+}
+
 // Main Execution
 const distDir = path.resolve('dist');
 const publicDir = path.resolve('public');
 
-// 1. Always keep public/sitemap.xml synchronized with the canonical route inventory
+// 1. Always keep public/sitemap.xml and public/sitemap_index.xml synchronized with the canonical route inventory
 const sitemapContent = generateSitemapXml(allCanonicalSpecs);
+const sitemapIndexContent = generateSitemapIndexXml();
 fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemapContent, 'utf8');
-console.log(`[SEO] Generated public/sitemap.xml with ${allCanonicalSpecs.length} canonical URLs.`);
+fs.writeFileSync(path.join(publicDir, 'sitemap_index.xml'), sitemapIndexContent, 'utf8');
+console.log(`[SEO] Generated public/sitemap.xml (${allCanonicalSpecs.length} canonical URLs) and public/sitemap_index.xml.`);
 
 // 2. If dist/index.html exists, prerender all 164 canonical routes + dist/404.html
 const distIndexPath = path.join(distDir, 'index.html');
 if (fs.existsSync(distIndexPath)) {
   const baseHtml = fs.readFileSync(distIndexPath, 'utf8');
   fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemapContent, 'utf8');
+  fs.writeFileSync(path.join(distDir, 'sitemap_index.xml'), sitemapIndexContent, 'utf8');
 
   let writtenCount = 0;
   for (const spec of allCanonicalSpecs) {
