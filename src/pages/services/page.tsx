@@ -147,7 +147,16 @@ export default function Services() {
                           <i className={`${service.icon} text-accent-400 text-lg`}></i>
                         </div>
                         <h3 className="font-heading text-lg sm:text-xl font-bold text-white group-hover:text-accent-300 transition-colors leading-snug">
-                          {service.name}
+                          <a
+                            href={`/services/${service.slug}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              navigate(`/services/${service.slug}`);
+                            }}
+                          >
+                            {service.name}
+                          </a>
                         </h3>
                       </div>
 
@@ -173,9 +182,17 @@ export default function Services() {
                         <span key={t} className="px-2 py-0.5 rounded bg-white/[0.03] text-[10px] text-white/40">{t}</span>
                       ))}
                     </div>
-                    <span className="text-xs font-semibold text-accent-400 flex items-center gap-1 group-hover:gap-2 transition-all whitespace-nowrap">
+                    <a
+                      href={`/services/${service.slug}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        navigate(`/services/${service.slug}`);
+                      }}
+                      className="text-xs font-semibold text-accent-400 flex items-center gap-1 group-hover:gap-2 transition-all whitespace-nowrap"
+                    >
                       Explore Capabilities <i className="ri-arrow-right-line"></i>
-                    </span>
+                    </a>
                   </div>
                 </motion.div>
               ))}
@@ -288,7 +305,16 @@ export default function Services() {
                               </span>
                             </div>
                             <h4 className="font-heading text-base font-bold text-white mb-2 group-hover:text-accent-300 transition-colors">
-                              {item.name}
+                              <a
+                                href={`/services/${item.slug}`}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  navigate(`/services/${item.slug}`);
+                                }}
+                              >
+                                {item.name}
+                              </a>
                             </h4>
                             <p className="text-xs text-white/45 leading-relaxed mb-5">
                               {item.desc}

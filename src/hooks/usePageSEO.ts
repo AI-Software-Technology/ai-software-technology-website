@@ -17,6 +17,12 @@ export interface PageSEOProps {
 const DEFAULT_OG_IMAGE = 'https://i.ibb.co/GvYrMC4M/Chat-GPT-Image-Oct-30-2026-07-57-59-PM.png';
 const SITE_URL = 'https://aisoftwaretechnology.in';
 
+declare global {
+  interface Window {
+    dataLayer?: Record<string, unknown>[];
+  }
+}
+
 export function usePageSEO({
   title,
   description,
@@ -32,6 +38,19 @@ export function usePageSEO({
 }: PageSEOProps) {
   useEffect(() => {
     document.title = title;
+
+    // Ensure legacy/duplicate container GTM-KZWSQ93N is never active and GTM-PRGHVB96 loads only once
+    document
+      .querySelectorAll('script[src*="GTM-KZWSQ93N"], iframe[src*="GTM-KZWSQ93N"]')
+      .forEach((el) => el.remove());
+    const gtmScripts = document.querySelectorAll(
+      'script[src*="googletagmanager.com/gtm.js?id=GTM-PRGHVB96"]'
+    );
+    if (gtmScripts.length > 1) {
+      gtmScripts.forEach((el, idx) => {
+        if (idx > 0) el.remove();
+      });
+    }
 
     const setMeta = (name: string, content: string, isProperty = false) => {
       const attr = isProperty ? 'property' : 'name';

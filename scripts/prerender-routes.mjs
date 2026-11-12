@@ -263,8 +263,34 @@ const staticRouteSpecs = [
       },
     ],
     links: [
+      { label: 'Home — AI Software Technology', href: '/' },
+      { label: 'About Us', href: '/about' },
+      { label: 'Software Services Hub', href: '/services' },
+      { label: 'Software Portfolio Hub', href: '/portfolio' },
+      { label: 'Industries Hub', href: '/industries' },
+      { label: 'Case Studies Hub', href: '/case-studies' },
+      { label: 'Blogs & Insights Hub', href: '/blogs' },
+      { label: 'Careers', href: '/careers' },
+      { label: 'Software Cost Calculator', href: '/calculators' },
+      { label: 'AI Automation Features', href: '/ai-features' },
+      { label: 'Knowledge Center', href: '/knowledge-center' },
+      { label: 'Our Journey', href: '/our-journey' },
+      { label: 'Contact Us', href: '/contact' },
+      { label: 'React vs Angular Comparison', href: '/comparisons/react-vs-angular' },
+      { label: 'Flutter vs React Native Comparison', href: '/comparisons/flutter-vs-react-native' },
+      { label: 'Custom Software vs SaaS Comparison', href: '/comparisons/custom-software-vs-saas' },
+      { label: 'Healthcare Software Solutions', href: '/industries/healthcare' },
+      { label: 'Finance & Fintech Software Solutions', href: '/industries/finance' },
+      { label: 'Manufacturing ERP Solutions', href: '/industries/manufacturing' },
+      { label: 'Education & EdTech Software Solutions', href: '/industries/education' },
+      { label: 'Retail & E-Commerce Software Solutions', href: '/industries/retail' },
+      { label: 'Hospitality & Hotel PMS Solutions', href: '/industries/hospitality' },
+      { label: 'Construction ERP Solutions', href: '/industries/construction' },
+      { label: 'Real Estate CRM Solutions', href: '/industries/real-estate' },
       ...servicesData.map((s) => ({ label: s.name, href: `/services/${s.slug}` })),
+      ...allPortfolio.map((p) => ({ label: `Portfolio: ${p.name}`, href: `/portfolio/${p.slug}` })),
       ...caseStudies.map((c) => ({ label: `Case Study: ${c.title}`, href: `/case-studies/${c.slug}` })),
+      ...blogPosts.map((b) => ({ label: `Blog: ${b.title}`, href: `/blogs/${b.slug}` })),
     ],
     schema: [
       {
@@ -1340,6 +1366,28 @@ function buildSemanticHtml(spec) {
           <h2>Related Pages &amp; Services</h2>
           <ul>${linksHtml}</ul>
         </nav>
+        <nav aria-label="Global Website Navigation" class="my-6">
+          <h2>Main Website Directory</h2>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About AI Software Technology</a></li>
+            <li><a href="/services">All 25 Software Services</a></li>
+            <li><a href="/portfolio">42+ Software Portfolio Projects</a></li>
+            <li><a href="/case-studies">9 Engineering Case Studies</a></li>
+            <li><a href="/industries">8 Industry Software Verticals</a></li>
+            <li><a href="/blogs">63+ Software &amp; Cloud Blog Articles</a></li>
+            <li><a href="/calculators">Software Cost Calculator</a></li>
+            <li><a href="/ai-features">AI Automation Features</a></li>
+            <li><a href="/knowledge-center">Knowledge Center</a></li>
+            <li><a href="/our-journey">Our Journey</a></li>
+            <li><a href="/careers">Careers</a></li>
+            <li><a href="/comparisons/react-vs-angular">React vs Angular</a></li>
+            <li><a href="/comparisons/flutter-vs-react-native">Flutter vs React Native</a></li>
+            <li><a href="/comparisons/custom-software-vs-saas">Custom Software vs SaaS</a></li>
+            <li><a href="/contact">Contact Us</a></li>
+            <li><a href="/sitemap">Complete HTML Sitemap</a></li>
+          </ul>
+        </nav>
         <footer>
           <p>Canonical URL: <a href="${escapeHtml(canonicalUrl)}">${escapeHtml(canonicalUrl)}</a> | Address: House No. 158-159, Pocket-10, Sector-24, Rohini, New Delhi, Delhi – 110085, India</p>
         </footer>
@@ -1436,7 +1484,6 @@ function renderRouteHtml(baseHtml, spec, isNotFound = false) {
   // Inject route-specific crawlable HTML inside #root (serves both non-JS crawlers and no-JS users before React mounts)
   const semanticMain = buildSemanticHtml(spec);
   html = html.replace('<div id="root"></div>', `<div id="root">${semanticMain}</div>`);
-  html = html.replace(/\s*<noscript>[\s\S]*?<\/noscript>/, '');
 
   return html;
 }
@@ -1503,12 +1550,17 @@ if (fs.existsSync(distIndexPath)) {
   let writtenCount = 0;
   for (const spec of allCanonicalSpecs) {
     const routeHtml = renderRouteHtml(baseHtml, spec, false);
-    const outFile =
-      spec.routePath === '/'
-        ? path.join(distDir, 'index.html')
-        : path.join(distDir, spec.routePath.replace(/^\/+/, ''), 'index.html');
-    fs.mkdirSync(path.dirname(outFile), { recursive: true });
-    fs.writeFileSync(outFile, routeHtml, 'utf8');
+    if (spec.routePath === '/') {
+      fs.writeFileSync(path.join(distDir, 'index.html'), routeHtml, 'utf8');
+    } else {
+      const cleanRel = spec.routePath.replace(/^\/+/, '');
+      const indexFile = path.join(distDir, cleanRel, 'index.html');
+      const flatHtmlFile = path.join(distDir, `${cleanRel}.html`);
+      fs.mkdirSync(path.dirname(indexFile), { recursive: true });
+      fs.mkdirSync(path.dirname(flatHtmlFile), { recursive: true });
+      fs.writeFileSync(indexFile, routeHtml, 'utf8');
+      fs.writeFileSync(flatHtmlFile, routeHtml, 'utf8');
+    }
     writtenCount++;
   }
 

@@ -154,7 +154,16 @@ export default function ServicesSection() {
                       <i className={`${service.icon} text-accent-400 text-lg`}></i>
                     </div>
                     <h3 className="font-heading text-lg font-bold text-white group-hover:text-accent-300 transition-colors duration-300 leading-snug">
-                      {service.name}
+                      <a
+                        href={`/services/${service.slug}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          navigate(`/services/${service.slug}`);
+                        }}
+                      >
+                        {service.name}
+                      </a>
                     </h3>
                   </div>
 
@@ -174,12 +183,20 @@ export default function ServicesSection() {
                       </span>
                     ))}
                   </div>
-                  <div className="inline-flex items-center gap-1 text-xs font-semibold text-accent-400 group-hover:text-accent-300 transition-colors flex-shrink-0">
+                  <a
+                    href={`/services/${service.slug}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      navigate(`/services/${service.slug}`);
+                    }}
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-accent-400 group-hover:text-accent-300 transition-colors flex-shrink-0"
+                  >
                     <span>Explore</span>
                     <div className="w-7 h-7 rounded-lg bg-white/[0.03] flex items-center justify-center text-white/40 group-hover:text-accent-400 group-hover:bg-accent-500/10 transition-all duration-300">
                       <i className="ri-arrow-right-up-line text-sm"></i>
                     </div>
-                  </div>
+                  </a>
                 </div>
               </div>
             </motion.div>
@@ -194,13 +211,17 @@ export default function ServicesSection() {
           viewport={{ once: true }}
           transition={{ delay: 0.3, duration: 0.5 }}
         >
-          <button
-            onClick={() => navigate('/services')}
-            className="glass-btn cursor-pointer"
+          <a
+            href="/services"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate('/services');
+            }}
+            className="glass-btn cursor-pointer inline-flex items-center"
           >
             <span>Explore All 30+ Software Services</span>
             <i className="ri-arrow-right-line ml-2"></i>
-          </button>
+          </a>
         </motion.div>
       </div>
     </section>

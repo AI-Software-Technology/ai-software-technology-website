@@ -96,7 +96,18 @@ export default function KnowledgeCenter() {
               <span className="w-1 h-1 rounded-full bg-white/15"></span>
               <span>{post.readingTime}</span>
             </div>
-            <h4 className="font-heading font-semibold text-white text-sm mb-2 line-clamp-2 group-hover:text-accent-400 transition-colors">{post.title}</h4>
+            <h4 className="font-heading font-semibold text-white text-sm mb-2 line-clamp-2 group-hover:text-accent-400 transition-colors">
+              <a
+                href={`/blogs/${post.slug}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  navigate(`/blogs/${post.slug}`);
+                }}
+              >
+                {post.title}
+              </a>
+            </h4>
             <p className="text-white/30 text-xs leading-relaxed line-clamp-2 mb-3">{post.excerpt}</p>
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 rounded-full bg-accent-500/15 flex items-center justify-center text-[10px] font-bold text-accent-400">{post.author.avatar}</div>
@@ -125,7 +136,18 @@ export default function KnowledgeCenter() {
             <img src={cs.image} alt={cs.imageAlt || cs.title} width="640" height="427" loading="lazy" decoding="async" className="w-full h-40 sm:h-full object-cover group-hover:scale-105 transition-transform duration-700" />
             <div className="p-5 flex flex-col justify-center">
               <span className="text-accent-400 text-[10px] font-medium mb-1">{cs.industry}</span>
-              <h4 className="font-heading font-semibold text-white text-xs mb-2 line-clamp-2">{cs.title}</h4>
+              <h4 className="font-heading font-semibold text-white text-xs mb-2 line-clamp-2">
+                <a
+                  href={`/case-studies/${cs.slug}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navigate(`/case-studies/${cs.slug}`);
+                  }}
+                >
+                  {cs.title}
+                </a>
+              </h4>
               <p className="text-white/30 text-[11px] leading-relaxed line-clamp-2 mb-3">{cs.challenge}</p>
               <div className="flex items-center gap-3 text-white/20 text-[10px]">
                 <span>{cs.duration}</span>
@@ -159,7 +181,18 @@ export default function KnowledgeCenter() {
             </div>
           </div>
           <div className="p-5">
-            <h4 className="font-heading font-semibold text-white text-sm mb-1">{proj.name}</h4>
+            <h4 className="font-heading font-semibold text-white text-sm mb-1">
+              <a
+                href={`/portfolio/${proj.slug}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  navigate(`/portfolio/${proj.slug}`);
+                }}
+              >
+                {proj.name}
+              </a>
+            </h4>
             <p className="text-white/30 text-xs leading-relaxed line-clamp-2 mb-3">{proj.description}</p>
             <div className="flex flex-wrap gap-1.5">
               {proj.technologies.slice(0, 3).map((t) => (

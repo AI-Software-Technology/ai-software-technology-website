@@ -44,10 +44,13 @@ npm run type-check
 npm run lint
 npm run security:build
 
-echo "[2/6] Verifying local dist/ artifacts before upload..."
+echo "[2/6] Verifying local dist/ artifacts and prerendered routes before upload..."
 test -f dist/index.html || { echo "ERROR: dist/index.html missing!"; exit 1; }
 test -f dist/robots.txt || { echo "ERROR: dist/robots.txt missing!"; exit 1; }
 test -f dist/sitemap.xml || { echo "ERROR: dist/sitemap.xml missing!"; exit 1; }
+test -f dist/404.html || { echo "ERROR: dist/404.html missing!"; exit 1; }
+test -f dist/services/erp-solutions/index.html || { echo "ERROR: Prerendered route dist/services/erp-solutions/index.html missing!"; exit 1; }
+test -f dist/blogs/web-development-trends-2027/index.html || { echo "ERROR: Prerendered route dist/blogs/web-development-trends-2027/index.html missing!"; exit 1; }
 
 MAP_COUNT="$(find dist -type f \( -name '*.map' -o -name '.env*' \) | wc -l | tr -d ' ')"
 if [ "${MAP_COUNT}" -ne 0 ]; then
@@ -75,6 +78,8 @@ ssh -p "${SSH_PORT}" "${DEPLOY_USER}@${VPS_HOST}" "
   test -f '${REMOTE_RELEASE_DIR}/dist/index.html'
   test -f '${REMOTE_RELEASE_DIR}/dist/robots.txt'
   test -f '${REMOTE_RELEASE_DIR}/dist/sitemap.xml'
+  test -f '${REMOTE_RELEASE_DIR}/dist/404.html'
+  test -f '${REMOTE_RELEASE_DIR}/dist/services/erp-solutions/index.html'
 
   # Ensure group is www-data and set read-only immutable permissions (dirs 0550, files 0440)
   chgrp -R www-data '${REMOTE_RELEASE_DIR}'

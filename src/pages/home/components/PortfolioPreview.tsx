@@ -28,13 +28,17 @@ export default function PortfolioPreview() {
               Projects That <span className="text-gradient">Deliver Results</span>
             </h2>
           </div>
-          <button
-            onClick={() => navigate('/portfolio')}
-            className="glass-btn self-start md:self-auto cursor-pointer text-xs sm:text-sm"
+          <a
+            href="/portfolio"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate('/portfolio');
+            }}
+            className="glass-btn self-start md:self-auto cursor-pointer text-xs sm:text-sm inline-flex items-center"
           >
             <span>View All Projects</span>
             <i className="ri-arrow-right-up-line ml-1.5"></i>
-          </button>
+          </a>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
@@ -90,7 +94,16 @@ export default function PortfolioPreview() {
                 {/* Info */}
                 <div className="p-5 sm:p-6 flex flex-col flex-grow">
                   <h3 className="font-heading text-sm sm:text-base font-bold text-white mb-2 group-hover:text-accent-300 transition-colors">
-                    {project.name}
+                    <a
+                      href={`/portfolio/${project.slug}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        navigate(caseStudyTarget);
+                      }}
+                    >
+                      {project.name}
+                    </a>
                   </h3>
                   <p className="text-xs text-white/50 leading-relaxed mb-4 line-clamp-2 flex-grow">
                     {project.description}
@@ -116,9 +129,10 @@ export default function PortfolioPreview() {
                       <i className="ri-external-link-line text-accent-400 text-xs"></i>
                       <span>Visit</span>
                     </a>
-                    <button
-                      type="button"
+                    <a
+                      href={caseStudyTarget}
                       onClick={(e) => {
+                        e.preventDefault();
                         e.stopPropagation();
                         navigate(caseStudyTarget);
                       }}
@@ -126,7 +140,7 @@ export default function PortfolioPreview() {
                     >
                       <i className="ri-article-line text-xs"></i>
                       <span>Case Study</span>
-                    </button>
+                    </a>
                   </div>
                 </div>
               </motion.div>

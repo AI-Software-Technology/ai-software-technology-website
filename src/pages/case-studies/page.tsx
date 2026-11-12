@@ -167,7 +167,17 @@ export default function CaseStudies() {
                             {study.client}
                           </p>
                           <h3 className="font-heading font-semibold text-white text-lg md:text-xl leading-snug mb-3 group-hover:text-accent-300 transition-colors duration-300">
-                            {study.title}
+                            <a
+                              href={`/case-studies/${study.slug}`}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                navigate(`/case-studies/${study.slug}`);
+                                window.scrollTo(0, 0);
+                              }}
+                            >
+                              {study.title}
+                            </a>
                           </h3>
                           <p className="text-white/40 text-sm leading-relaxed mb-4 line-clamp-2">
                             {study.challenge}
@@ -208,10 +218,19 @@ export default function CaseStudies() {
                                 <span>Visit</span>
                               </a>
                             )}
-                            <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-accent-500/15 border border-accent-400/25 text-accent-300 text-xs font-semibold">
+                            <a
+                              href={`/case-studies/${study.slug}`}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                navigate(`/case-studies/${study.slug}`);
+                                window.scrollTo(0, 0);
+                              }}
+                              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-accent-500/15 border border-accent-400/25 text-accent-300 text-xs font-semibold"
+                            >
                               <span>Case Study</span>
                               <i className="ri-arrow-right-line group-hover:translate-x-1 transition-transform duration-300"></i>
-                            </span>
+                            </a>
                           </div>
                         </div>
                       </div>

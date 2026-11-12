@@ -264,7 +264,16 @@ export default function Blogs() {
                           <span className="text-white/35 text-[11px]">{post.readingTime}</span>
                         </div>
                         <h3 className="font-heading font-semibold text-white text-base leading-snug mb-2.5 group-hover:text-accent-300 transition-colors">
-                          {post.title}
+                          <a
+                            href={`/blogs/${post.slug}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              navigate(`/blogs/${post.slug}`);
+                            }}
+                          >
+                            {post.title}
+                          </a>
                         </h3>
                         <p className="text-white/45 text-xs leading-relaxed mb-4 line-clamp-3">
                           {post.excerpt}
@@ -279,9 +288,17 @@ export default function Blogs() {
                         </div>
                         <span className="text-white/45 text-[11px] font-medium">{post.author.name}</span>
                       </div>
-                      <span className="inline-flex items-center text-accent-400 text-xs font-semibold group-hover:translate-x-0.5 transition-transform">
+                      <a
+                        href={`/blogs/${post.slug}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          navigate(`/blogs/${post.slug}`);
+                        }}
+                        className="inline-flex items-center text-accent-400 text-xs font-semibold group-hover:translate-x-0.5 transition-transform"
+                      >
                         Read More <i className="ri-arrow-right-s-line ml-0.5"></i>
-                      </span>
+                      </a>
                     </div>
                   </motion.article>
                 ))}

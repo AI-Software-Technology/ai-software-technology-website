@@ -327,7 +327,16 @@ export default function Portfolio() {
                       {/* Content */}
                       <div className="p-5 flex flex-col flex-grow relative z-10">
                         <h3 className="font-heading font-bold text-white text-base leading-snug mb-2 group-hover:text-accent-300 transition-colors duration-300">
-                          {project.name}
+                          <a
+                            href={`/portfolio/${project.slug}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              navigate(caseStudyTarget);
+                            }}
+                          >
+                            {project.name}
+                          </a>
                         </h3>
 
                         <p className="text-white/55 text-xs leading-relaxed mb-4 line-clamp-3 flex-grow">
@@ -372,9 +381,10 @@ export default function Portfolio() {
                             <i className="ri-external-link-line text-xs text-accent-400"></i>
                             <span>Visit</span>
                           </a>
-                          <button
-                            type="button"
+                          <a
+                            href={caseStudyTarget}
                             onClick={(e) => {
+                              e.preventDefault();
                               e.stopPropagation();
                               navigate(caseStudyTarget);
                             }}
@@ -382,7 +392,7 @@ export default function Portfolio() {
                           >
                             <i className="ri-article-line text-xs"></i>
                             <span>Case Study</span>
-                          </button>
+                          </a>
                         </div>
                       </div>
                     </motion.div>
@@ -390,6 +400,17 @@ export default function Portfolio() {
                 })}
               </motion.div>
             </AnimatePresence>
+
+            {/* Crawlable index of all 42 portfolio project detail pages */}
+            <nav aria-label="Complete Portfolio Project Directory" className="sr-only">
+              <ul>
+                {allProjects.map((proj) => (
+                  <li key={proj.slug}>
+                    <a href={`/portfolio/${proj.slug}`}>{proj.name}</a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
 
             {/* Show More */}
             {filtered.length > 15 && (
