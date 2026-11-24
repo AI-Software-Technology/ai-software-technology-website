@@ -5,15 +5,17 @@ import Footer from '@/components/feature/Footer';
 import ScrollToTop from '@/components/feature/ScrollToTop';
 import { caseStudies } from '@/mocks/caseStudies';
 import { usePageSEO } from '@/hooks/usePageSEO';
+import { STATIC_ROUTE_KEYWORD_MAP } from '@/seo/keywordMap';
 import { sanitizeExternalUrl } from '@/utils/security';
 
 export default function CaseStudies() {
   const navigate = useNavigate();
 
+  const seoSpec = STATIC_ROUTE_KEYWORD_MAP['/case-studies'];
+
   usePageSEO({
-    title: 'Software Case Studies | AI Software Technology — ERP, CRM, HRMS & Automation Implementations',
-    description:
-      'Explore software architecture and implementation case studies from AI Software Technology (A Brand of Digi India Solutions) across Custom ERP, Sales CRM, HRMS & Payroll, Healthcare HMS, Education ERP, and AI Workflow Automation.',
+    title: seoSpec.seoTitle,
+    description: seoSpec.metaDescription,
     canonical: 'https://aisoftwaretechnology.in/case-studies',
     schema: [
       {

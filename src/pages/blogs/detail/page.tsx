@@ -8,6 +8,7 @@ import ScrollToTop from '@/components/feature/ScrollToTop';
 import Breadcrumb from '@/components/feature/Breadcrumb';
 import { blogPosts } from '@/mocks/blog';
 import { usePageSEO } from '@/hooks/usePageSEO';
+import { resolveBlogSeo } from '@/seo/keywordMap';
 import {
   sanitizeExternalUrl,
   openExternalUrlSafely,
@@ -80,18 +81,16 @@ export default function BlogDetail() {
   const [errorMsg, setErrorMsg] = useState('');
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
-  const resolvedTitle = post
-    ? post.seoTitle || `${post.title} | AI Software Technology Blog`
-    : 'Blog | AI Software Technology';
+  const blogSeo = post ? resolveBlogSeo(post) : null;
+  const resolvedTitle = blogSeo?.seoTitle || 'Blog | AI Software Technology';
   const resolvedDescription =
-    post?.metaDescription ||
-    post?.excerpt ||
+    blogSeo?.metaDescription ||
     'Practical insights on custom software development, Web Development, Cloud Computing, ERP, CRM, HRMS, SaaS, and AI automation from AI Software Technology (A Brand of Digi India Solutions).';
 
   usePageSEO({
     title: resolvedTitle,
     description: resolvedDescription,
-    ogTitle: post?.seoTitle || post?.title || 'AI Software Technology Blog',
+    ogTitle: resolvedTitle,
     ogDescription: resolvedDescription,
     ogImage: post?.image || 'https://i.ibb.co/GvYrMC4M/Chat-GPT-Image-Oct-30-2026-07-57-59-PM.png',
     ogImageAlt: post?.imageAlt || post?.title,

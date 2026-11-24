@@ -5,14 +5,16 @@ import Footer from '@/components/feature/Footer';
 import FloatingCTA from '@/components/feature/FloatingCTA';
 import ScrollToTop from '@/components/feature/ScrollToTop';
 import { usePageSEO } from '@/hooks/usePageSEO';
+import { STATIC_ROUTE_KEYWORD_MAP } from '@/seo/keywordMap';
 
 export default function FlutterVsReactNative() {
   const navigate = useNavigate();
 
+  const seoSpec = STATIC_ROUTE_KEYWORD_MAP['/comparisons/flutter-vs-react-native'];
+
   usePageSEO({
-    title: 'Flutter vs React Native Comparison | Cross-Platform Mobile App Guide — AI Software Technology',
-    description:
-      'Compare Flutter vs React Native for Android and iOS mobile app development. Evaluate rendering performance, development speed, native integration, and maintenance with AI Software Technology.',
+    title: seoSpec.seoTitle,
+    description: seoSpec.metaDescription,
     ogType: 'article',
     canonical: 'https://aisoftwaretechnology.in/comparisons/flutter-vs-react-native',
     schema: [

@@ -7,6 +7,7 @@ import FloatingCTA from '@/components/feature/FloatingCTA';
 import ScrollToTop from '@/components/feature/ScrollToTop';
 import { blogPosts, blogCategories } from '@/mocks/blog';
 import { usePageSEO } from '@/hooks/usePageSEO';
+import { STATIC_ROUTE_KEYWORD_MAP } from '@/seo/keywordMap';
 import { isValidEmail, checkFormRateLimit } from '@/utils/security';
 
 export default function Blogs() {
@@ -14,10 +15,11 @@ export default function Blogs() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
 
+  const seoSpec = STATIC_ROUTE_KEYWORD_MAP['/blogs'];
+
   usePageSEO({
-    title: 'Software, Web Development & Cloud Computing Blog | AI Software Technology',
-    description:
-      'Practical guides and B2B insights on Web Development, Cloud Computing, Custom Software, CRM, ERP, HRMS, SaaS architecture, and AI automation from AI Software Technology (A Brand of Digi India Solutions).',
+    title: seoSpec.seoTitle,
+    description: seoSpec.metaDescription,
     canonical: 'https://aisoftwaretechnology.in/blogs',
     schema: [
       {

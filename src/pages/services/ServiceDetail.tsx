@@ -9,6 +9,12 @@ import Breadcrumb from '@/components/feature/Breadcrumb';
 import { servicesData } from '@/mocks/services';
 import { servicePricing } from '@/mocks/pricing';
 import { caseStudies } from '@/mocks/caseStudies';
+import { blogPosts } from '@/mocks/blog';
+import { portfolioProjectsA } from '@/mocks/portfolio';
+import { portfolioProjectsB } from '@/mocks/portfolioExtended';
+import { portfolioProjectsC } from '@/mocks/portfolioNew';
+import { industriesData } from '@/mocks/industryDetails';
+import { SERVICE_SEO_MAP } from '@/seo/keywordMap';
 import ServiceTestimonialsSection from '@/components/feature/ServiceTestimonialsSection';
 import { usePageSEO } from '@/hooks/usePageSEO';
 import {
@@ -17,6 +23,8 @@ import {
   getWhatsAppEnquiryUrl,
 } from '@/utils/whatsappEnquiry';
 import { checkFormRateLimit } from '@/utils/security';
+
+const allPortfolioProjects = [...portfolioProjectsA, ...portfolioProjectsB, ...portfolioProjectsC];
 
 const SERVICE_SLUG_ALIASES: Record<string, string> = {
   'inventory-billing-software': 'inventory-management-software',
@@ -97,21 +105,31 @@ export default function ServiceDetail() {
 
   const resolvedSlug = slug ? SERVICE_SLUG_ALIASES[slug] || slug : undefined;
   const service = servicesData.find((s) => s.slug === resolvedSlug);
+  const seoSpec = resolvedSlug ? SERVICE_SEO_MAP[resolvedSlug] : undefined;
   const pricing = resolvedSlug && servicePricing[resolvedSlug]?.length ? servicePricing[resolvedSlug] : defaultServicePricing;
   const relatedCaseStudies = caseStudies.filter(
     (cs) => cs.service === resolvedSlug || cs.relatedServices.some((rs) => rs.slug === resolvedSlug)
   ).slice(0, 3);
+  const relatedPortfolio = (seoSpec?.relatedPortfolioSlugs || [])
+    .map((pSlug) => allPortfolioProjects.find((p) => p.slug === pSlug))
+    .filter((p): p is NonNullable<typeof p> => Boolean(p));
+  const relatedBlogs = (seoSpec?.relatedBlogSlugs || [])
+    .map((bSlug) => blogPosts.find((b) => b.slug === bSlug))
+    .filter((b): b is NonNullable<typeof b> => Boolean(b));
+  const relatedIndustries = (seoSpec?.relatedIndustrySlugs || [])
+    .map((iSlug) => industriesData[iSlug as keyof typeof industriesData])
+    .filter((ind): ind is NonNullable<typeof ind> => Boolean(ind));
   const otherServices = servicesData.filter((s) => s.slug !== resolvedSlug).slice(0, 4);
 
   usePageSEO({
     title: service
-      ? `${service.name} Company in India | AI Software Technology`
-      : 'Software Development Services | AI Software Technology',
+      ? seoSpec?.seoTitle || `${service.name} Company in Delhi NCR, India | AI Software Technology`
+      : 'Custom Software Development Services in India | AI Software Technology',
     description: service
-      ? `${service.heroDesc} Call +91 9990390519 for a free consultation with AI Software Technology — A Brand of Digi India Solutions.`
+      ? seoSpec?.metaDescription || `${service.heroDesc} Call +91 9990390519 for a free consultation with AI Software Technology — A Brand of Digi India Solutions.`
       : 'Explore custom software development, ERP, CRM, HRMS, SaaS, mobile apps, and AI automation services from AI Software Technology.',
-    ogTitle: service ? `${service.name} — AI Software Technology` : 'Services — AI Software Technology',
-    ogDescription: service?.heroDesc || 'Custom software development and business technology solutions.',
+    ogTitle: service ? seoSpec?.seoTitle || `${service.name} — AI Software Technology` : 'Services — AI Software Technology',
+    ogDescription: seoSpec?.metaDescription || service?.heroDesc || 'Custom software development and business technology solutions.',
     ogImage: service?.bannerImage,
     ogImageAlt: service ? service.imageAlt || `${service.name} Services — AI Software Technology` : undefined,
     canonical: service ? `https://aisoftwaretechnology.in/services/${service.slug}` : 'https://aisoftwaretechnology.in/services',
@@ -121,13 +139,13 @@ export default function ServiceDetail() {
           {
             '@context': 'https://schema.org',
             '@type': 'Service',
-            name: service.name,
-            description: service.heroDesc,
+            name: seoSpec?.h1 || service.name,
+            description: seoSpec?.answerFirstSummary || service.heroDesc,
             url: `https://aisoftwaretechnology.in/services/${service.slug}`,
             image: service.bannerImage.startsWith('/')
               ? `https://aisoftwaretechnology.in${service.bannerImage}`
               : service.bannerImage,
-            serviceType: service.name,
+            serviceType: seoSpec?.primaryKeyword || service.name,
             provider: {
               '@type': 'ProfessionalService',
               name: 'AI Software Technology',
@@ -298,16 +316,22 @@ export default function ServiceDetail() {
                 </div>
 
                 <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-[1.12] mb-4">
-                  {service.name}
+                  {seoSpec?.h1 || service.name}
                 </h1>
 
                 <p className="font-heading text-base sm:text-lg md:text-xl text-gradient font-semibold mb-4">
                   {service.tagline}
                 </p>
 
-                <p className="text-sm sm:text-base text-white/65 leading-relaxed mb-8 max-w-2xl">
+                <p className="text-sm sm:text-base text-white/65 leading-relaxed mb-4 max-w-2xl">
                   {service.heroDesc}
                 </p>
+
+                {seoSpec?.answerFirstSummary && (
+                  <p className="text-xs sm:text-sm text-white/55 leading-relaxed mb-7 max-w-2xl p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.07]">
+                    {seoSpec.answerFirstSummary}
+                  </p>
+                )}
 
                 <div className="flex flex-wrap gap-3">
                   <button
@@ -741,6 +765,55 @@ export default function ServiceDetail() {
           </section>
         )}
 
+        {/* Business Problems Solved & Integration Capabilities */}
+        {seoSpec && (
+          <section className="py-16 md:py-24 bg-dark-600/50 border-y border-white/[0.05]">
+            <div className="max-w-[1400px] mx-auto px-6 md:px-10">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="glass-card rounded-2xl p-7 md:p-8 border border-white/[0.07]">
+                  <div className="section-tag mb-3">
+                    <i className="ri-shield-check-line text-accent-400"></i> Business Challenges Solved
+                  </div>
+                  <h2 className="font-heading text-xl md:text-2xl font-bold text-white mb-6">
+                    Business Problems Our <span className="text-gradient">{service.name}</span> Solves
+                  </h2>
+                  <div className="space-y-4">
+                    {seoSpec.problemsSolved.map((item, idx) => (
+                      <div key={idx} className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                        <h3 className="font-heading text-sm font-bold text-white mb-1 flex items-center gap-2">
+                          <i className="ri-checkbox-circle-line text-accent-400"></i>
+                          <span>{item.title}</span>
+                        </h3>
+                        <p className="text-xs text-white/55 leading-relaxed">{item.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="glass-card rounded-2xl p-7 md:p-8 border border-white/[0.07]">
+                  <div className="section-tag mb-3">
+                    <i className="ri-plug-line text-accent-400"></i> Ecosystem Connectivity
+                  </div>
+                  <h2 className="font-heading text-xl md:text-2xl font-bold text-white mb-6">
+                    Integration Capabilities for <span className="text-gradient">{service.name}</span>
+                  </h2>
+                  <div className="space-y-4">
+                    {seoSpec.integrationCapabilities.map((cap, idx) => (
+                      <div key={idx} className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                        <h3 className="font-heading text-sm font-bold text-white mb-1 flex items-center gap-2">
+                          <i className="ri-links-line text-primary-300"></i>
+                          <span>{cap.title}</span>
+                        </h3>
+                        <p className="text-xs text-white/55 leading-relaxed">{cap.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Technologies & Industries */}
         <section className="py-16 md:py-24">
           <div className="max-w-[1400px] mx-auto px-6 md:px-10">
@@ -756,7 +829,7 @@ export default function ServiceDetail() {
                   <div className="w-9 h-9 rounded-xl bg-primary-500/15 border border-primary-400/15 flex items-center justify-center">
                     <i className="ri-code-box-line text-accent-400 text-base"></i>
                   </div>
-                  <h3 className="font-heading text-lg font-bold text-white">Technologies We Use</h3>
+                  <h2 className="font-heading text-lg font-bold text-white">Technologies We Use</h2>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {service.technologies.map((tech) => (
@@ -781,19 +854,41 @@ export default function ServiceDetail() {
                   <div className="w-9 h-9 rounded-xl bg-accent-500/15 border border-accent-400/15 flex items-center justify-center">
                     <i className="ri-building-4-line text-accent-400 text-base"></i>
                   </div>
-                  <h3 className="font-heading text-lg font-bold text-white">Industries &amp; Use Cases</h3>
+                  <h2 className="font-heading text-lg font-bold text-white">Industries &amp; Verticals Served</h2>
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 mb-5">
                   {service.industries.map((ind) => (
-                    <span
+                    <a
                       key={ind}
-                      onClick={() => navigate('/industries')}
+                      href="/industries"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate('/industries');
+                      }}
                       className="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06] text-xs font-medium text-white/60 hover:text-accent-400 hover:border-accent-400/20 transition-all duration-200 cursor-pointer"
                     >
                       {ind}
-                    </span>
+                    </a>
                   ))}
                 </div>
+                {relatedIndustries.length > 0 && (
+                  <div className="pt-4 border-t border-white/[0.06] flex flex-wrap items-center gap-2">
+                    <span className="text-[11px] text-white/40 font-medium">Dedicated Industry Solutions:</span>
+                    {relatedIndustries.map((ind) => (
+                      <a
+                        key={ind.slug}
+                        href={`/industries/${ind.slug}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate(`/industries/${ind.slug}`);
+                        }}
+                        className="text-xs font-semibold text-accent-400 hover:text-accent-300 underline underline-offset-4"
+                      >
+                        {ind.title} Software →
+                      </a>
+                    ))}
+                  </div>
+                )}
               </motion.div>
             </div>
           </div>
@@ -1128,6 +1223,99 @@ export default function ServiceDetail() {
                     </a>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* Related Portfolio Projects & Related Technical Blog Guides */}
+            {(relatedPortfolio.length > 0 || relatedBlogs.length > 0) && (
+              <div className="mt-14 pt-12 border-t border-white/[0.06] grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {relatedPortfolio.length > 0 && (
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <h2 className="font-heading text-lg md:text-xl font-bold text-white">
+                        Related <span className="text-gradient">Portfolio Projects</span>
+                      </h2>
+                      <a
+                        href="/portfolio"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate('/portfolio');
+                        }}
+                        className="text-xs font-semibold text-accent-400 hover:underline"
+                      >
+                        All 42+ Projects →
+                      </a>
+                    </div>
+                    <div className="space-y-3">
+                      {relatedPortfolio.map((proj) => (
+                        <a
+                          key={proj.slug}
+                          href={`/portfolio/${proj.slug}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            navigate(`/portfolio/${proj.slug}`);
+                          }}
+                          className="glass-card-hover rounded-xl p-4 flex items-center justify-between gap-4 group block"
+                        >
+                          <div className="min-w-0">
+                            <span className="text-[10px] font-semibold text-accent-400 uppercase tracking-wider block mb-0.5">
+                              {proj.category}
+                            </span>
+                            <h3 className="font-heading text-sm font-bold text-white group-hover:text-accent-300 transition-colors truncate">
+                              {proj.name}
+                            </h3>
+                            <p className="text-xs text-white/45 line-clamp-1">{proj.description}</p>
+                          </div>
+                          <i className="ri-arrow-right-up-line text-accent-400 flex-shrink-0"></i>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {relatedBlogs.length > 0 && (
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <h2 className="font-heading text-lg md:text-xl font-bold text-white">
+                        Related <span className="text-gradient">Guides &amp; Insights</span>
+                      </h2>
+                      <a
+                        href="/blogs"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate('/blogs');
+                        }}
+                        className="text-xs font-semibold text-accent-400 hover:underline"
+                      >
+                        All 63+ Guides →
+                      </a>
+                    </div>
+                    <div className="space-y-3">
+                      {relatedBlogs.map((blog) => (
+                        <a
+                          key={blog.slug}
+                          href={`/blogs/${blog.slug}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            navigate(`/blogs/${blog.slug}`);
+                          }}
+                          className="glass-card-hover rounded-xl p-4 flex items-center justify-between gap-4 group block"
+                        >
+                          <div className="min-w-0">
+                            <span className="text-[10px] font-semibold text-primary-300 uppercase tracking-wider block mb-0.5">
+                              {blog.category} • {blog.readingTime}
+                            </span>
+                            <h3 className="font-heading text-sm font-bold text-white group-hover:text-accent-300 transition-colors line-clamp-1">
+                              {blog.title}
+                            </h3>
+                            <p className="text-xs text-white/45 line-clamp-1">{blog.excerpt}</p>
+                          </div>
+                          <i className="ri-article-line text-accent-400 flex-shrink-0"></i>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>

@@ -6,6 +6,7 @@ import i18n from "./i18n";
 import StickyContactBar from "@/components/feature/StickyContactBar";
 import AnimatedCursor from "@/components/feature/AnimatedCursor";
 import Interactive3DBackground from "@/components/feature/Interactive3DBackground";
+import SmartLeadPopup from "@/components/feature/SmartLeadPopup";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <AppRoutes />
         </Suspense>
         <StickyContactBar />
+        <SmartLeadPopup />
       </BrowserRouter>
     </I18nextProvider>
   );

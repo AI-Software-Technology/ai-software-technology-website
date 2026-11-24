@@ -6,6 +6,7 @@ import Footer from '@/components/feature/Footer';
 import ScrollToTop from '@/components/feature/ScrollToTop';
 import FloatingCTA from '@/components/feature/FloatingCTA';
 import { usePageSEO } from '@/hooks/usePageSEO';
+import { STATIC_ROUTE_KEYWORD_MAP } from '@/seo/keywordMap';
 
 interface TimelineMilestone {
   year: string;
@@ -134,10 +135,11 @@ export default function OurJourney() {
   const statsRef = useRef<HTMLDivElement>(null);
   const [isStatsVisible, setIsStatsVisible] = useState(false);
 
+  const seoSpec = STATIC_ROUTE_KEYWORD_MAP['/our-journey'];
+
   usePageSEO({
-    title: 'Our Journey | AI Software Technology — A Brand of Digi India Solutions',
-    description:
-      'Explore the evolution of AI Software Technology, a dedicated custom software development brand of Digi India Solutions, delivering ERP, CRM, HRMS, SaaS, Mobile Apps, and AI Automation.',
+    title: seoSpec.seoTitle,
+    description: seoSpec.metaDescription,
     canonical: 'https://aisoftwaretechnology.in/our-journey',
     schema: [
       {

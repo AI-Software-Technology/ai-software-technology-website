@@ -7,22 +7,23 @@ import FloatingCTA from '@/components/feature/FloatingCTA';
 import ScrollToTop from '@/components/feature/ScrollToTop';
 import { servicesData, serviceCategories } from '@/mocks/services';
 import { usePageSEO } from '@/hooks/usePageSEO';
+import { STATIC_ROUTE_KEYWORD_MAP } from '@/seo/keywordMap';
 
 export default function Services() {
   const navigate = useNavigate();
   const [activeCat, setActiveCat] = useState<string>('all');
+  const servicesSeo = STATIC_ROUTE_KEYWORD_MAP['/services'];
 
   usePageSEO({
-    title: 'Custom Software Development Services | ERP, CRM, HRMS, SaaS & Mobile Apps | AI Software Technology',
-    description: 'Explore 25+ custom software development services by AI Software Technology — A Brand of Digi India Solutions. Custom ERP, CRM, HRMS, SaaS applications, mobile apps, industry-specific software, and AI automation. Call +91 9990390519.',
+    title: servicesSeo.seoTitle,
+    description: servicesSeo.metaDescription,
     canonical: 'https://aisoftwaretechnology.in/services',
     schema: [
       {
         '@context': 'https://schema.org',
         '@type': 'CollectionPage',
-        name: 'Custom Software Development Services — AI Software Technology',
-        description:
-          'Complete catalog of 25 custom software development, ERP, CRM, HRMS, SaaS, mobile app, web development, cloud deployment, and AI automation services by AI Software Technology (A Brand of Digi India Solutions).',
+        name: servicesSeo.seoTitle,
+        description: servicesSeo.answerFirstSummary,
         url: 'https://aisoftwaretechnology.in/services',
         isPartOf: { '@id': 'https://aisoftwaretechnology.in/#website' },
         mainEntity: {

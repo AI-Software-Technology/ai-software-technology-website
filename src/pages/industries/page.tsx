@@ -6,15 +6,17 @@ import Footer from '@/components/feature/Footer';
 import ScrollToTop from '@/components/feature/ScrollToTop';
 import { industries } from '@/mocks/industries';
 import { usePageSEO } from '@/hooks/usePageSEO';
+import { STATIC_ROUTE_KEYWORD_MAP } from '@/seo/keywordMap';
 
 export default function Industries() {
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState<string | null>(null);
 
+  const seoSpec = STATIC_ROUTE_KEYWORD_MAP['/industries'];
+
   usePageSEO({
-    title: 'Industries We Serve | AI Software Technology — Healthcare, Education, Real Estate, Manufacturing',
-    description:
-      'AI Software Technology (A Brand of Digi India Solutions) delivers custom ERP, CRM, HRMS, and industry-specific management software across Healthcare, Education, Real Estate, Manufacturing, Retail, Finance, Hospitality, and Construction.',
+    title: seoSpec.seoTitle,
+    description: seoSpec.metaDescription,
     canonical: 'https://aisoftwaretechnology.in/industries',
     jsonLd: [
       {

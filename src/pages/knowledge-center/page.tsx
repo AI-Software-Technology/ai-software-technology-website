@@ -10,6 +10,7 @@ import { caseStudies } from '@/mocks/caseStudies';
 import { portfolioProjectsA } from '@/mocks/portfolio';
 import { portfolioProjectsB } from '@/mocks/portfolioExtended';
 import { usePageSEO } from '@/hooks/usePageSEO';
+import { STATIC_ROUTE_KEYWORD_MAP } from '@/seo/keywordMap';
 
 const allPortfolio = [...portfolioProjectsA, ...portfolioProjectsB];
 
@@ -44,10 +45,11 @@ export default function KnowledgeCenter() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('all');
 
+  const seoSpec = STATIC_ROUTE_KEYWORD_MAP['/knowledge-center'];
+
   usePageSEO({
-    title: 'Knowledge Center | AI Software Technology — Guides, Case Studies & Documentation',
-    description:
-      'Explore software architecture guides, ERP/CRM/HRMS documentation, case studies, and technical resources from AI Software Technology (A Brand of Digi India Solutions).',
+    title: seoSpec.seoTitle,
+    description: seoSpec.metaDescription,
     canonical: 'https://aisoftwaretechnology.in/knowledge-center',
     schema: [
       {

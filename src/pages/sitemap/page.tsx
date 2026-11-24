@@ -11,6 +11,7 @@ import { portfolioProjectsB } from '@/mocks/portfolioExtended';
 import { portfolioProjectsC } from '@/mocks/portfolioNew';
 import { caseStudies } from '@/mocks/caseStudies';
 import { usePageSEO } from '@/hooks/usePageSEO';
+import { STATIC_ROUTE_KEYWORD_MAP } from '@/seo/keywordMap';
 
 const allPortfolioProjects = [...portfolioProjectsA, ...portfolioProjectsB, ...portfolioProjectsC];
 
@@ -62,10 +63,11 @@ const staticSections = [
 ];
 
 export default function SitemapPage() {
+  const seoSpec = STATIC_ROUTE_KEYWORD_MAP['/sitemap'];
+
   usePageSEO({
-    title: 'HTML Sitemap | Complete Directory of Pages — AI Software Technology',
-    description:
-      'Browse all 164+ public pages on AI Software Technology (A Brand of Digi India Solutions) — including 25 software services, 42 portfolio projects, 9 case studies, 8 industry verticals, and 63 B2B technology guides.',
+    title: seoSpec.seoTitle,
+    description: seoSpec.metaDescription,
     canonical: 'https://aisoftwaretechnology.in/sitemap',
     schema: {
       '@context': 'https://schema.org',

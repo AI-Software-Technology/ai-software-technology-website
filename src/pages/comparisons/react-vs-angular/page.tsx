@@ -5,14 +5,16 @@ import Footer from '@/components/feature/Footer';
 import FloatingCTA from '@/components/feature/FloatingCTA';
 import ScrollToTop from '@/components/feature/ScrollToTop';
 import { usePageSEO } from '@/hooks/usePageSEO';
+import { STATIC_ROUTE_KEYWORD_MAP } from '@/seo/keywordMap';
 
 export default function ReactVsAngular() {
   const navigate = useNavigate();
 
+  const seoSpec = STATIC_ROUTE_KEYWORD_MAP['/comparisons/react-vs-angular'];
+
   usePageSEO({
-    title: 'React vs Angular Comparison Guide | Frontend Architecture — AI Software Technology',
-    description:
-      'Compare React vs Angular for custom web applications, ERP dashboards, and SaaS platforms. Evaluate performance, learning curve, ecosystem flexibility, and enterprise scalability with AI Software Technology.',
+    title: seoSpec.seoTitle,
+    description: seoSpec.metaDescription,
     ogType: 'article',
     canonical: 'https://aisoftwaretechnology.in/comparisons/react-vs-angular',
     schema: [

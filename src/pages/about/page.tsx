@@ -6,22 +6,22 @@ import FloatingCTA from '@/components/feature/FloatingCTA';
 import ScrollToTop from '@/components/feature/ScrollToTop';
 import { companyStats, milestones, values } from '@/mocks/team';
 import { usePageSEO } from '@/hooks/usePageSEO';
+import { STATIC_ROUTE_KEYWORD_MAP } from '@/seo/keywordMap';
 
 export default function About() {
   const navigate = useNavigate();
+  const aboutSeo = STATIC_ROUTE_KEYWORD_MAP['/about'];
 
   usePageSEO({
-    title: 'About AI Software Technology | Custom Software Development Brand of Digi India Solutions',
-    description:
-      'AI Software Technology is a specialized software development brand of Digi India Solutions, created to help businesses replace manual operations and disconnected tools with powerful, easy-to-use digital systems including ERP, CRM, HRMS, SaaS and AI automation.',
+    title: aboutSeo.seoTitle,
+    description: aboutSeo.metaDescription,
     canonical: 'https://aisoftwaretechnology.in/about',
     schema: [
       {
         '@context': 'https://schema.org',
         '@type': 'AboutPage',
-        name: 'About AI Software Technology — A Brand of Digi India Solutions',
-        description:
-          'AI Software Technology is the custom software development and business technology brand of Digi India Solutions in New Delhi, India.',
+        name: aboutSeo.seoTitle,
+        description: aboutSeo.answerFirstSummary,
         url: 'https://aisoftwaretechnology.in/about',
         isPartOf: { '@id': 'https://aisoftwaretechnology.in/#website' },
         mainEntity: { '@id': 'https://aisoftwaretechnology.in/#organization' },

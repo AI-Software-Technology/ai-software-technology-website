@@ -89,7 +89,7 @@ export default function HeroSection() {
             variants={itemVariants}
             className="font-heading text-base sm:text-lg md:text-2xl font-semibold text-accent-400/90 max-w-3xl mx-auto mb-4 leading-snug px-2"
           >
-            Transform Your Business with Smart, Scalable Digital Solutions.
+            Custom Software Development Company in Delhi NCR &amp; Across India.
           </motion.p>
 
           {/* Hero Description */}
@@ -97,7 +97,7 @@ export default function HeroSection() {
             variants={itemVariants}
             className="text-sm sm:text-base md:text-lg text-white/50 max-w-2xl mx-auto mb-3 leading-relaxed font-body px-2"
           >
-            AI Software Technology develops customized ERP, CRM, HRMS, SaaS platforms, mobile applications and business management software designed to simplify operations, improve productivity and support business growth.
+            AI Software Technology (A Brand of Digi India Solutions, New Delhi) develops custom ERP, CRM, HRMS, SaaS platforms, Android &amp; iOS mobile applications, and AI business automation engineered around your exact workflows.
           </motion.p>
 
           {/* Primary Tagline */}
@@ -110,20 +110,28 @@ export default function HeroSection() {
 
           {/* CTAs */}
           <motion.div variants={itemVariants} className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 sm:gap-4 mb-12 sm:mb-16 px-4 sm:px-0">
-            <button
-              onClick={() => navigate('/contact')}
+            <a
+              href="/contact"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate('/contact');
+              }}
               className="glass-btn-primary text-sm !px-6 sm:!px-8 !py-3.5 sm:!py-4 cursor-pointer w-full sm:w-auto justify-center"
             >
               <i className="ri-rocket-2-line mr-2 text-base"></i>
               Get Free Consultation
-            </button>
-            <button
-              onClick={() => navigate('/services')}
+            </a>
+            <a
+              href="/services"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate('/services');
+              }}
               className="glass-btn text-sm !px-6 sm:!px-7 !py-3.5 sm:!py-4 cursor-pointer w-full sm:w-auto justify-center"
             >
               <i className="ri-apps-2-line mr-2 text-base text-accent-400"></i>
               Explore Our Services
-            </button>
+            </a>
             <a
               href="https://wa.me/919990390519"
               target="_blank"

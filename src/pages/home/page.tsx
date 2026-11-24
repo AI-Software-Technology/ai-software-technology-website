@@ -15,21 +15,21 @@ import GlobalMap from './components/GlobalMap';
 import FAQSection from './components/FAQSection';
 import CTASection from './components/CTASection';
 import { usePageSEO } from '@/hooks/usePageSEO';
+import { STATIC_ROUTE_KEYWORD_MAP } from '@/seo/keywordMap';
 
 export default function Home() {
+  const homeSeo = STATIC_ROUTE_KEYWORD_MAP['/'];
   usePageSEO({
-    title: 'AI Software Technology | Custom Software Development Company in Delhi, India',
-    description:
-      'AI Software Technology, a brand of Digi India Solutions in New Delhi, builds custom ERP, CRM, HRMS, SaaS platforms, mobile apps, and AI automation software. Call +91 9990390519.',
+    title: homeSeo.seoTitle,
+    description: homeSeo.metaDescription,
     canonical: 'https://aisoftwaretechnology.in/',
     schema: [
       {
         '@context': 'https://schema.org',
         '@type': 'WebPage',
         '@id': 'https://aisoftwaretechnology.in/#webpage',
-        name: 'AI Software Technology | Custom Software Development Company in Delhi, India',
-        description:
-          'Custom software development brand of Digi India Solutions delivering ERP, CRM, HRMS, SaaS, mobile applications, order management, factory attendance, and AI workflow automation.',
+        name: homeSeo.seoTitle,
+        description: homeSeo.answerFirstSummary,
         url: 'https://aisoftwaretechnology.in/',
         isPartOf: { '@id': 'https://aisoftwaretechnology.in/#website' },
         about: { '@id': 'https://aisoftwaretechnology.in/#organization' },

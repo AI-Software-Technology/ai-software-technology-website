@@ -8,21 +8,23 @@ import Breadcrumb from '@/components/feature/Breadcrumb';
 import { caseStudies } from '@/mocks/caseStudies';
 import { usePageSEO } from '@/hooks/usePageSEO';
 import { sanitizeExternalUrl } from '@/utils/security';
+import { resolveCaseStudySeo } from '@/seo/keywordMap';
 
 export default function CaseStudyDetail() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const study = slug ? caseStudies.find((c) => c.slug === slug) : undefined;
+  const caseStudySeo = study ? resolveCaseStudySeo(study) : null;
 
   usePageSEO({
-    title: study
-      ? `${study.title} | Case Study — AI Software Technology`
-      : 'Case Study | AI Software Technology — A Brand of Digi India Solutions',
-    description: study
-      ? `${study.overview} Explore business challenges, solution architecture, key features, workflow, and technology stack by AI Software Technology.`
-      : 'Explore software implementation case studies by AI Software Technology (A Brand of Digi India Solutions).',
-    ogTitle: study ? `${study.title} — Case Study` : 'Case Studies — AI Software Technology',
-    ogDescription: study?.overview,
+    title:
+      caseStudySeo?.seoTitle ||
+      'Case Study | AI Software Technology — A Brand of Digi India Solutions',
+    description:
+      caseStudySeo?.metaDescription ||
+      'Explore software implementation case studies by AI Software Technology (A Brand of Digi India Solutions).',
+    ogTitle: caseStudySeo?.seoTitle || 'Case Studies — AI Software Technology',
+    ogDescription: caseStudySeo?.metaDescription || study?.overview,
     ogImage: study?.image,
     ogImageAlt: study ? study.imageAlt || study.title : undefined,
     ogType: 'article',
@@ -36,7 +38,7 @@ export default function CaseStudyDetail() {
             '@context': 'https://schema.org',
             '@type': 'Article',
             headline: study.title,
-            description: study.overview,
+            description: caseStudySeo?.metaDescription || study.overview,
             url: `https://aisoftwaretechnology.in/case-studies/${study.slug}`,
             image: study.image,
             author: {
@@ -54,7 +56,10 @@ export default function CaseStudyDetail() {
               },
             },
             about: { '@type': 'Thing', name: study.industry },
-            keywords: study.tags.join(', '),
+            keywords: [
+              ...(caseStudySeo ? [caseStudySeo.primaryKeyword, ...caseStudySeo.supportingKeywords] : []),
+              ...study.tags,
+            ].join(', '),
           },
           {
             '@context': 'https://schema.org',

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navbar from './Navbar';
@@ -6,6 +7,14 @@ import FloatingCTA from './FloatingCTA';
 import ScrollToTop from './ScrollToTop';
 import Breadcrumb from './Breadcrumb';
 import { usePageSEO } from '@/hooks/usePageSEO';
+import { INDUSTRY_SEO_MAP } from '@/seo/keywordMap';
+import { servicesData } from '@/mocks/services';
+import { caseStudies } from '@/mocks/caseStudies';
+import { portfolioProjectsA } from '@/mocks/portfolio';
+import { portfolioProjectsB } from '@/mocks/portfolioExtended';
+import { portfolioProjectsC } from '@/mocks/portfolioNew';
+
+const allPortfolioProjects = [...portfolioProjectsA, ...portfolioProjectsB, ...portfolioProjectsC];
 
 export interface IndustryData {
   slug: string;
@@ -31,14 +40,33 @@ interface Props {
 
 export default function IndustryDetail({ data }: Props) {
   const navigate = useNavigate();
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const seoSpec = data ? INDUSTRY_SEO_MAP[data.slug] : undefined;
+
+  const relatedServices = (seoSpec?.relatedServiceSlugs || [])
+    .map((sSlug) => servicesData.find((s) => s.slug === sSlug))
+    .filter((s): s is NonNullable<typeof s> => Boolean(s));
+
+  const relatedCaseStudyItems = (seoSpec?.relatedCaseStudySlugs || [])
+    .map((cSlug) => caseStudies.find((c) => c.slug === cSlug))
+    .filter((c): c is NonNullable<typeof c> => Boolean(c));
+
+  const relatedPortfolioItems = (seoSpec?.relatedPortfolioSlugs || [])
+    .map((pSlug) => allPortfolioProjects.find((p) => p.slug === pSlug))
+    .filter((p): p is NonNullable<typeof p> => Boolean(p));
+
+  const resolvedTitle = seoSpec?.seoTitle || (data ? data.meta.title : 'Industry Solutions | AI Software Technology');
+  const resolvedDesc =
+    seoSpec?.metaDescription ||
+    (data
+      ? `${data.meta.description} Call +91 9990390519.`
+      : 'Industry-specific IT and custom software solutions by AI Software Technology — A Brand of Digi India Solutions.');
 
   usePageSEO({
-    title: data ? data.meta.title : 'Industry Solutions | AI Software Technology',
-    description: data
-      ? `${data.meta.description} Call +91 9990390519.`
-      : 'Industry-specific IT and custom software solutions by AI Software Technology — A Brand of Digi India Solutions.',
-    ogTitle: data ? data.meta.title : 'Industry Solutions | AI Software Technology',
-    ogDescription: data?.meta.description,
+    title: resolvedTitle,
+    description: resolvedDesc,
+    ogTitle: resolvedTitle,
+    ogDescription: resolvedDesc,
     ogImage: data?.heroImage,
     ogImageAlt: data ? `${data.title} Software Solutions — AI Software Technology` : undefined,
     canonical: data ? data.meta.canonicalUrl : 'https://aisoftwaretechnology.in/industries',
@@ -48,11 +76,11 @@ export default function IndustryDetail({ data }: Props) {
           {
             '@context': 'https://schema.org',
             '@type': 'Service',
-            name: `Custom ${data.title} Software Solutions`,
-            description: data.meta.description,
+            name: seoSpec?.h1 || `Custom ${data.title} Software Solutions`,
+            description: seoSpec?.answerFirstSummary || data.meta.description,
             url: data.meta.canonicalUrl,
             image: data.heroImage,
-            serviceType: `${data.title} Software Development`,
+            serviceType: seoSpec?.primaryKeyword || `${data.title} Software Development`,
             provider: {
               '@type': 'ProfessionalService',
               name: 'AI Software Technology',
@@ -78,6 +106,22 @@ export default function IndustryDetail({ data }: Props) {
               { '@type': 'Country', name: 'India' },
             ],
           },
+          ...(seoSpec?.faqs && seoSpec.faqs.length > 0
+            ? [
+                {
+                  '@context': 'https://schema.org',
+                  '@type': 'FAQPage',
+                  mainEntity: seoSpec.faqs.map((faq) => ({
+                    '@type': 'Question',
+                    name: faq.q,
+                    acceptedAnswer: {
+                      '@type': 'Answer',
+                      text: faq.a,
+                    },
+                  })),
+                },
+              ]
+            : []),
           {
             '@context': 'https://schema.org',
             '@type': 'BreadcrumbList',
@@ -115,7 +159,7 @@ export default function IndustryDetail({ data }: Props) {
           <div className="absolute inset-0">
             <img
               src={data.heroImage}
-              alt={`${data.title} Software Solutions — AI Software Technology`}
+              alt={`${data.title} Software Solutions in Delhi NCR — AI Software Technology`}
               title={data.title}
               loading="eager"
               decoding="async"
@@ -128,22 +172,22 @@ export default function IndustryDetail({ data }: Props) {
           </div>
           <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 md:px-10 w-full py-12">
             <motion.div
-              className="max-w-2xl"
+              className="max-w-3xl"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
             >
               <div className="section-tag mb-4 flex items-center gap-2">
                 <i className={data.icon}></i>
-                {data.title} Solutions
+                {data.title} Software Solutions — Delhi NCR &amp; India
               </div>
               <h1 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold mb-4 leading-tight">
-                Custom {data.title} <span className="text-gradient">Software Solutions</span>
+                {seoSpec?.h1 || `Custom ${data.title} Software Solutions`}
               </h1>
-              <p className="text-white/45 text-sm md:text-base leading-relaxed mb-8">
-                {data.meta.description}
+              <p className="text-white/60 text-sm md:text-base leading-relaxed mb-4">
+                {seoSpec?.answerFirstSummary || data.meta.description}
               </p>
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col sm:flex-row gap-3 mt-6">
                 <a
                   href="/contact"
                   onClick={(e) => {
@@ -221,7 +265,7 @@ export default function IndustryDetail({ data }: Props) {
                     <i className="ri-error-warning-line text-red-400"></i>
                   </div>
                   <h3 className="font-heading font-semibold text-white text-sm mb-2">{c.title}</h3>
-                  <p className="text-white/35 text-xs leading-relaxed">{c.desc}</p>
+                  <p className="text-white/45 text-xs leading-relaxed">{c.desc}</p>
                 </motion.div>
               ))}
             </div>
@@ -256,15 +300,15 @@ export default function IndustryDetail({ data }: Props) {
                   <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500/15 to-accent-500/10 border border-primary-400/10 flex items-center justify-center mb-4">
                     <i className={`${data.icon} text-accent-400 text-lg`}></i>
                   </div>
-                  <h4 className="font-heading font-semibold text-white text-sm mb-2">{s.title}</h4>
-                  <p className="text-white/35 text-xs leading-relaxed">{s.desc}</p>
+                  <h3 className="font-heading font-semibold text-white text-sm mb-2">{s.title}</h3>
+                  <p className="text-white/45 text-xs leading-relaxed">{s.desc}</p>
                 </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Core Modules */}
+        {/* Core Modules & Mapped Services */}
         <section className="py-14 md:py-20">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-10 text-center">
             <motion.div
@@ -273,9 +317,9 @@ export default function IndustryDetail({ data }: Props) {
               viewport={{ once: true }}
             >
               <div className="section-tag mx-auto">Modules</div>
-              <h3 className="font-heading text-xl md:text-2xl font-bold text-white mb-8">
+              <h2 className="font-heading text-xl md:text-2xl font-bold text-white mb-8">
                 Core {data.title} Modules We Deliver
-              </h3>
+              </h2>
               <div className="flex flex-wrap justify-center gap-2.5 mb-8">
                 {data.modules.map((m) => (
                   <span
@@ -286,84 +330,163 @@ export default function IndustryDetail({ data }: Props) {
                   </span>
                 ))}
               </div>
-              <div className="flex flex-wrap justify-center gap-3 pt-4 border-t border-white/[0.05]">
-                <a
-                  href="/services/custom-software"
-                  onClick={(e) => { e.preventDefault(); navigate('/services/custom-software'); }}
-                  className="text-xs text-accent-400 hover:underline font-medium"
-                >
-                  Custom Software Development →
-                </a>
-                <span className="text-white/20">•</span>
-                <a
-                  href="/services/erp-solutions"
-                  onClick={(e) => { e.preventDefault(); navigate('/services/erp-solutions'); }}
-                  className="text-xs text-accent-400 hover:underline font-medium"
-                >
-                  ERP Software Solutions →
-                </a>
-                <span className="text-white/20">•</span>
-                <a
-                  href="/services/crm-solutions"
-                  onClick={(e) => { e.preventDefault(); navigate('/services/crm-solutions'); }}
-                  className="text-xs text-accent-400 hover:underline font-medium"
-                >
-                  CRM & Lead Management →
-                </a>
-                <span className="text-white/20">•</span>
-                <a
-                  href="/services/hrms-software"
-                  onClick={(e) => { e.preventDefault(); navigate('/services/hrms-software'); }}
-                  className="text-xs text-accent-400 hover:underline font-medium"
-                >
-                  HRMS & Attendance Software →
-                </a>
+              <div className="flex flex-wrap justify-center gap-3 pt-6 border-t border-white/[0.05]">
+                {(relatedServices.length > 0
+                  ? relatedServices
+                  : servicesData.slice(0, 4)
+                ).map((srv, idx, arr) => (
+                  <span key={srv.slug} className="inline-flex items-center gap-3">
+                    <a
+                      href={`/services/${srv.slug}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate(`/services/${srv.slug}`);
+                      }}
+                      className="text-xs text-accent-400 hover:underline font-medium"
+                    >
+                      {srv.name} →
+                    </a>
+                    {idx < arr.length - 1 && <span className="text-white/20">•</span>}
+                  </span>
+                ))}
               </div>
             </motion.div>
           </div>
         </section>
 
-        {/* Case Study Highlight */}
-        {data.caseStudies && data.caseStudies.length > 0 && (
-          <section className="py-14 md:py-24 bg-dark-600">
+        {/* Related Case Studies & Portfolio Implementations */}
+        {(relatedCaseStudyItems.length > 0 || relatedPortfolioItems.length > 0) && (
+          <section className="py-14 md:py-20 bg-dark-600 border-y border-white/[0.05]">
             <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-10">
-              {data.caseStudies.map((cs) => (
-                <motion.div
-                  key={cs.title}
-                  className="glass-card rounded-2xl p-6 sm:p-8 md:p-12 border-l-2 border-l-accent-500/40"
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                >
-                  <div className="section-tag mb-4">Success Story</div>
-                  <h3 className="font-heading text-xl md:text-2xl font-bold text-white mb-2">
-                    {cs.title}
-                  </h3>
-                  <p className="text-white/40 text-sm leading-relaxed mb-6 max-w-2xl">{cs.desc}</p>
-                  <div className="flex flex-wrap gap-3">
-                    <a
-                      href="/case-studies"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        navigate('/case-studies');
-                      }}
-                      className="glass-btn-primary !text-xs cursor-pointer"
-                    >
-                      View Case Studies <i className="ri-arrow-right-line ml-1.5"></i>
-                    </a>
-                    <a
-                      href="/portfolio"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        navigate('/portfolio');
-                      }}
-                      className="glass-btn !text-xs cursor-pointer"
-                    >
-                      See Portfolio
-                    </a>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {relatedCaseStudyItems.length > 0 && (
+                  <div>
+                    <div className="flex items-center justify-between mb-5">
+                      <h2 className="font-heading text-lg md:text-xl font-bold text-white">
+                        {data.title} <span className="text-gradient">Case Studies</span>
+                      </h2>
+                      <a
+                        href="/case-studies"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate('/case-studies');
+                        }}
+                        className="text-xs font-semibold text-accent-400 hover:underline"
+                      >
+                        All Case Studies →
+                      </a>
+                    </div>
+                    <div className="space-y-3">
+                      {relatedCaseStudyItems.map((cs) => (
+                        <a
+                          key={cs.slug}
+                          href={`/case-studies/${cs.slug}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            navigate(`/case-studies/${cs.slug}`);
+                          }}
+                          className="glass-card-hover rounded-xl p-4 flex items-center justify-between gap-4 group block"
+                        >
+                          <div className="min-w-0">
+                            <span className="text-[10px] font-semibold text-accent-400 uppercase tracking-wider block mb-0.5">
+                              {cs.industry}
+                            </span>
+                            <h3 className="font-heading text-sm font-bold text-white group-hover:text-accent-300 transition-colors line-clamp-1">
+                              {cs.title}
+                            </h3>
+                            <p className="text-xs text-white/45 line-clamp-1">{cs.overview}</p>
+                          </div>
+                          <i className="ri-arrow-right-up-line text-accent-400 flex-shrink-0"></i>
+                        </a>
+                      ))}
+                    </div>
                   </div>
-                </motion.div>
-              ))}
+                )}
+
+                {relatedPortfolioItems.length > 0 && (
+                  <div>
+                    <div className="flex items-center justify-between mb-5">
+                      <h2 className="font-heading text-lg md:text-xl font-bold text-white">
+                        Delivered <span className="text-gradient">Portfolio Projects</span>
+                      </h2>
+                      <a
+                        href="/portfolio"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate('/portfolio');
+                        }}
+                        className="text-xs font-semibold text-accent-400 hover:underline"
+                      >
+                        All Portfolio Projects →
+                      </a>
+                    </div>
+                    <div className="space-y-3">
+                      {relatedPortfolioItems.map((proj) => (
+                        <a
+                          key={proj.slug}
+                          href={`/portfolio/${proj.slug}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            navigate(`/portfolio/${proj.slug}`);
+                          }}
+                          className="glass-card-hover rounded-xl p-4 flex items-center justify-between gap-4 group block"
+                        >
+                          <div className="min-w-0">
+                            <span className="text-[10px] font-semibold text-primary-300 uppercase tracking-wider block mb-0.5">
+                              {proj.category}
+                            </span>
+                            <h3 className="font-heading text-sm font-bold text-white group-hover:text-accent-300 transition-colors truncate">
+                              {proj.name}
+                            </h3>
+                            <p className="text-xs text-white/45 line-clamp-1">{proj.description}</p>
+                          </div>
+                          <i className="ri-arrow-right-up-line text-accent-400 flex-shrink-0"></i>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Industry FAQs */}
+        {seoSpec?.faqs && seoSpec.faqs.length > 0 && (
+          <section className="py-14 md:py-20">
+            <div className="max-w-3xl mx-auto px-4 sm:px-6 md:px-10">
+              <div className="text-center mb-10">
+                <div className="section-tag mx-auto">
+                  <i className="ri-question-line"></i> FAQ
+                </div>
+                <h2 className="section-title text-white">
+                  Frequently Asked Questions — <span className="text-gradient">{data.title} Software</span>
+                </h2>
+              </div>
+              <div className="space-y-3">
+                {seoSpec.faqs.map((faq, idx) => (
+                  <div key={idx} className="glass-card rounded-2xl overflow-hidden">
+                    <button
+                      onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
+                      className="w-full flex items-center justify-between p-5 text-left cursor-pointer"
+                    >
+                      <h3 className="font-heading text-sm md:text-base font-semibold text-white pr-4">
+                        {faq.q}
+                      </h3>
+                      <i
+                        className={`ri-arrow-down-s-line text-accent-400 text-lg transition-transform duration-300 ${
+                          openFaq === idx ? 'rotate-180' : ''
+                        }`}
+                      ></i>
+                    </button>
+                    {openFaq === idx && (
+                      <div className="px-5 pb-5 pt-3 border-t border-white/[0.05] text-xs md:text-sm text-white/55 leading-relaxed">
+                        {faq.a}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </section>
         )}
@@ -379,11 +502,11 @@ export default function IndustryDetail({ data }: Props) {
             >
               <div className="absolute -top-40 right-0 w-80 h-80 rounded-full bg-accent-500/8 blur-[100px]"></div>
               <div className="relative z-10">
-                <h3 className="font-heading text-2xl md:text-4xl font-bold text-white mb-3">
-                  Ready to Transform Your {data.title} Business?
-                </h3>
-                <p className="text-white/40 text-sm max-w-lg mx-auto mb-8">
-                  Get a free consultation with our {data.title.toLowerCase()} software specialists at AI Software Technology. No commitment, just actionable insights.
+                <h2 className="font-heading text-2xl md:text-4xl font-bold text-white mb-3">
+                  Ready to Build Custom {data.title} Software?
+                </h2>
+                <p className="text-white/45 text-sm max-w-lg mx-auto mb-8">
+                  Get a free architecture consultation with our {data.title.toLowerCase()} software engineers at AI Software Technology (A Brand of Digi India Solutions, Rohini, New Delhi).
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-3">
                   <a

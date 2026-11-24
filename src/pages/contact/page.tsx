@@ -5,6 +5,7 @@ import Footer from '@/components/feature/Footer';
 import ScrollToTop from '@/components/feature/ScrollToTop';
 import GoogleMapEmbed from '@/components/feature/GoogleMapEmbed';
 import { usePageSEO } from '@/hooks/usePageSEO';
+import { STATIC_ROUTE_KEYWORD_MAP } from '@/seo/keywordMap';
 import {
   validateEnquiryForm,
   openWhatsAppEnquiry,
@@ -98,18 +99,17 @@ export default function Contact() {
   const [errorMsg, setErrorMsg] = useState('');
   const [lastWhatsAppUrl, setLastWhatsAppUrl] = useState('');
 
+  const contactSeo = STATIC_ROUTE_KEYWORD_MAP['/contact'];
   usePageSEO({
-    title: 'Contact AI Software Technology | Book Free Software Demo | +91 9990390519',
-    description:
-      'Contact AI Software Technology (A Brand of Digi India Solutions) at House No. 158-159, Pocket-10, Sector-24, Rohini, New Delhi – 110085. Call or WhatsApp +91 9990390519 or email aisoftwaretechnology2026@gmail.com for Custom Software, ERP, CRM, HRMS, SaaS, Mobile Apps, and AI Automation.',
+    title: contactSeo.seoTitle,
+    description: contactSeo.metaDescription,
     canonical: 'https://aisoftwaretechnology.in/contact',
     schema: [
       {
         '@context': 'https://schema.org',
         '@type': 'ContactPage',
-        name: 'Contact AI Software Technology — A Brand of Digi India Solutions',
-        description:
-          'Get in touch with AI Software Technology at House No. 158-159, Pocket-10, Sector-24, Rohini, New Delhi – 110085. Call or WhatsApp +91 9990390519 or email aisoftwaretechnology2026@gmail.com.',
+        name: contactSeo.seoTitle,
+        description: contactSeo.answerFirstSummary,
         url: 'https://aisoftwaretechnology.in/contact',
         isPartOf: { '@id': 'https://aisoftwaretechnology.in/#website' },
         mainEntity: { '@id': 'https://aisoftwaretechnology.in/#localbusiness' },

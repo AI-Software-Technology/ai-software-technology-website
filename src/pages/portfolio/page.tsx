@@ -9,6 +9,7 @@ import { portfolioProjectsA } from '@/mocks/portfolio';
 import { portfolioProjectsB } from '@/mocks/portfolioExtended';
 import { portfolioProjectsC } from '@/mocks/portfolioNew';
 import { usePageSEO } from '@/hooks/usePageSEO';
+import { STATIC_ROUTE_KEYWORD_MAP } from '@/seo/keywordMap';
 import { sanitizeExternalUrl } from '@/utils/security';
 
 const allProjects = [...portfolioProjectsA, ...portfolioProjectsB, ...portfolioProjectsC];
@@ -73,9 +74,11 @@ export default function Portfolio() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const gridRef = useRef<HTMLDivElement>(null);
 
+  const seoSpec = STATIC_ROUTE_KEYWORD_MAP['/portfolio'];
+
   usePageSEO({
-    title: 'Software & Web Portfolio | AI Software Technology — A Brand of Digi India Solutions',
-    description: 'Explore AI Software Technology portfolio of 42+ delivered projects across custom ERP systems, order management software, multi-portal web platforms, factory attendance & HRMS portals, CRM platforms, SaaS applications, mobile apps, and business web solutions.',
+    title: seoSpec.seoTitle,
+    description: seoSpec.metaDescription,
     canonical: 'https://aisoftwaretechnology.in/portfolio',
     schema: [
       {

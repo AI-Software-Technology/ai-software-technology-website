@@ -6,6 +6,7 @@ import Footer from '@/components/feature/Footer';
 import FloatingCTA from '@/components/feature/FloatingCTA';
 import ScrollToTop from '@/components/feature/ScrollToTop';
 import { usePageSEO } from '@/hooks/usePageSEO';
+import { STATIC_ROUTE_KEYWORD_MAP } from '@/seo/keywordMap';
 
 const aiFeatures = [
   {
@@ -13,72 +14,73 @@ const aiFeatures = [
     icon: 'ri-robot-2-line',
     title: 'AI Chat Assistant',
     tagline: '24/7 Intelligent Customer Engagement',
-    desc: 'Deploy an enterprise-grade conversational AI that understands context, remembers conversation history, and resolves 85% of customer queries without human intervention. Trained on your business data for accurate, brand-aligned responses.',
-    highlights: ['NLP-powered understanding', 'Multi-language support', 'Seamless human handoff', 'Sentiment analysis', 'CRM integration'],
+    desc: 'Deploy a business-grounded conversational AI assistant that understands context, retains session history, and answers common product and support queries around the clock. Connected to your verified documentation for accurate, brand-aligned responses.',
+    highlights: ['RAG-grounded responses', 'Multi-language support', 'Seamless human handoff', 'Intent detection', 'CRM lead sync'],
     image: 'https://readdy.ai/api/search-image?query=Futuristic%20AI%20chatbot%20interface%20on%20modern%20screen%20with%20conversation%20bubbles%2C%20neural%20network%20visualization%20in%20background%2C%20sleek%20dark%20theme%20with%20warm%20orange%20and%20teal%20accents%2C%20conversational%20UI%20design%2C%20high%20detail%20tech%20photography%2C%20clean%20minimal%20workspace&width=700&height=450&seq=ai-chat-assistant&orientation=landscape',
   },
   {
     id: 'estimator',
     icon: 'ri-calculator-line',
     title: 'AI Project Estimator',
-    tagline: 'Predict Costs Before You Build',
-    desc: 'Upload your project requirements and our ML model — trained on 5000+ completed projects — generates accurate timeline, cost, and resource estimates in under 60 seconds. Eliminate budget surprises before they happen.',
-    highlights: ['5,000+ project dataset', 'Timeline prediction', 'Resource allocation', 'Risk assessment', '60-second estimates'],
+    tagline: 'Structured Scope & Effort Breakdown',
+    desc: 'Submit your software module requirements and workflow rules to generate a structured scope breakdown, milestone timeline, and recommended technology stack before development begins.',
+    highlights: ['Module-level scoping', 'Milestone planning', 'Tech-stack matching', 'Integration checklist', 'Instant scope summary'],
     image: 'https://readdy.ai/api/search-image?query=AI%20project%20estimation%20dashboard%20on%20computer%20screen%20showing%20cost%20breakdown%20charts%20and%20timeline%20predictions%2C%20modern%20office%20workspace%2C%20data%20visualization%20with%20warm%20orange%20accents%2C%20professional%20project%20management%20software%20interface%2C%20clean%20aesthetic&width=700&height=450&seq=ai-estimator&orientation=landscape',
   },
   {
     id: 'recommendation',
     icon: 'ri-lightbulb-flash-line',
     title: 'AI Recommendation Engine',
-    tagline: 'Personalized Intelligence at Scale',
-    desc: 'Our collaborative filtering and deep learning recommendation system processes millions of user interactions in real-time to surface the most relevant products, content, or services — driving 35% higher engagement and 28% conversion lift.',
-    highlights: ['Real-time personalization', 'Collaborative filtering', 'A/B testing built-in', '35% engagement boost', 'Cross-platform sync'],
+    tagline: 'Contextual Product & Service Matching',
+    desc: 'Rule-assisted and similarity-based recommendation pipelines that surface relevant catalog items, related services, or reorder suggestions inside B2B dealer portals and e-commerce applications.',
+    highlights: ['Catalog similarity matching', 'B2B reorder suggestions', 'Configurable business rules', 'Real-time API endpoints', 'Cross-platform sync'],
     image: 'https://readdy.ai/api/search-image?query=AI%20recommendation%20engine%20dashboard%20displaying%20personalized%20product%20suggestions%20and%20user%20behavior%20analytics%2C%20modern%20ecommerce%20interface%2C%20data%20flow%20visualization%2C%20warm%20gradient%20UI%2C%20contemporary%20tech%20workspace%2C%20clean%20professional%20design&width=700&height=450&seq=ai-recommendation&orientation=landscape',
   },
   {
     id: 'lead',
     icon: 'ri-user-star-line',
     title: 'AI Lead Qualification',
-    tagline: 'Never Chase Dead Leads Again',
-    desc: 'Our ML model scores every lead based on 50+ behavioral and demographic signals. Sales teams focus only on high-intent prospects, resulting in 45% higher conversion rates and 30% shorter sales cycles.',
-    highlights: ['50+ scoring signals', 'Behavioral analysis', 'Automated nurturing', 'Salesforce integration', '45% conversion lift'],
+    tagline: 'Prioritize High-Intent B2B Enquiries',
+    desc: 'Automatically categorizes and scores incoming enquiries based on service interest, requirement detail, company profile, and response urgency—routing qualified prospects directly to the right sales specialist.',
+    highlights: ['Rule & intent scoring', 'Automated lead routing', 'WhatsApp & email follow-up', 'Custom CRM webhook sync', 'Duplicate lead filtering'],
     image: 'https://readdy.ai/api/search-image?query=AI%20lead%20scoring%20dashboard%20with%20predictive%20analytics%20charts%20showing%20lead%20quality%20scores%2C%20sales%20pipeline%20visualization%2C%20modern%20CRM%20interface%2C%20dark%20theme%20with%20teal%20accents%2C%20professional%20business%20analytics%20environment&width=700&height=450&seq=ai-lead-qual&orientation=landscape',
   },
   {
     id: 'support',
     icon: 'ri-headphone-line',
     title: 'AI Support Bot',
-    tagline: 'Resolve Issues Before They Escalate',
-    desc: 'Intelligent support automation that triages tickets, suggests solutions from your knowledge base, and auto-resolves common issues. Reduces ticket volume by 60% and improves CSAT scores by 25%.',
-    highlights: ['Auto-ticket triage', 'Knowledge base integration', 'Solution suggestions', '60% ticket reduction', 'Multi-channel support'],
+    tagline: 'Automated Ticket Triage & Knowledge Retrieval',
+    desc: 'Intelligent support automation that classifies incoming service tickets, retrieves relevant troubleshooting articles from your SOP knowledge base, and escalates complex issues to human engineers with full context.',
+    highlights: ['Auto-ticket classification', 'SOP knowledge retrieval', 'Draft response suggestions', 'SLA priority tagging', 'Multi-channel helpdesk sync'],
     image: 'https://readdy.ai/api/search-image?query=AI%20customer%20support%20dashboard%20on%20screen%20showing%20ticket%20management%20and%20chatbot%20analytics%2C%20modern%20helpdesk%20interface%2C%20dark%20theme%20with%20warm%20highlights%2C%20customer%20service%20technology%2C%20clean%20professional%20workspace&width=700&height=450&seq=ai-support&orientation=landscape',
   },
   {
     id: 'analyzer',
     icon: 'ri-file-search-line',
     title: 'AI Requirement Analyzer',
-    tagline: 'Turn Ideas Into Actionable Specs',
-    desc: 'Drop your rough project idea, business document, or voice recording — our AI extracts features, identifies gaps, generates user stories, and produces a structured PRD with effort estimates in minutes, not weeks.',
-    highlights: ['Document ingestion', 'Gap analysis', 'User story generation', 'Effort estimation', 'PDF/PRD export'],
+    tagline: 'Turn Business Notes Into Structured Specs',
+    desc: 'Upload your workflow notes, RFPs, or process documents—our requirement analysis pipeline organizes user roles, core modules, approval stages, and integration points into a structured specification.',
+    highlights: ['Document & RFP parsing', 'Role & permission mapping', 'User story structuring', 'Integration discovery', 'Exportable spec format'],
     image: 'https://readdy.ai/api/search-image?query=AI%20document%20analysis%20interface%20on%20screen%20showing%20requirement%20extraction%20and%20structured%20PRD%20generation%2C%20modern%20software%20development%20workspace%2C%20clean%20UI%20with%20warm%20accent%20colors%2C%20tech%20documentation%20visualization%2C%20professional%20environment&width=700&height=450&seq=ai-analyzer&orientation=landscape',
   },
 ];
 
 const aiStats = [
-  { value: '85%', label: 'Query Auto-Resolution' },
-  { value: '45%', label: 'Conversion Rate Increase' },
-  { value: '60%', label: 'Ticket Volume Reduction' },
-  { value: '5,000+', label: 'Trained Projects Dataset' },
+  { value: '24/7', label: 'Automated Query Triage' },
+  { value: 'RAG', label: 'Knowledge-Grounded Answers' },
+  { value: 'API', label: 'ERP, CRM & WhatsApp Sync' },
+  { value: 'RBAC', label: 'Role-Based Access Control' },
 ];
 
 export default function AIFeatures() {
   const navigate = useNavigate();
   const [activeFeature, setActiveFeature] = useState<string | null>(null);
 
+  const seoSpec = STATIC_ROUTE_KEYWORD_MAP['/ai-features'];
+
   usePageSEO({
-    title: 'AI Automation & Business Intelligence | AI Software Technology',
-    description:
-      'Explore AI Chatbots, AI Lead Qualification, WhatsApp Automation, and Intelligent Business Workflows built by AI Software Technology (A Brand of Digi India Solutions).',
+    title: seoSpec.seoTitle,
+    description: seoSpec.metaDescription,
     canonical: 'https://aisoftwaretechnology.in/ai-features',
     schema: [
       {

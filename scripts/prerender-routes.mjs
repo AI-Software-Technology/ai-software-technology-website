@@ -7,10 +7,24 @@ import { portfolioProjectsC } from '../src/mocks/portfolioNew.ts';
 import { caseStudies } from '../src/mocks/caseStudies.ts';
 import { blogPosts } from '../src/mocks/blog.ts';
 import { industriesData } from '../src/mocks/industryDetails.ts';
+import {
+  STATIC_ROUTE_KEYWORD_MAP,
+  SERVICE_SEO_MAP,
+  INDUSTRY_SEO_MAP,
+  resolvePortfolioSeo,
+  resolveCaseStudySeo,
+  resolveBlogSeo,
+} from '../src/seo/keywordMap.ts';
+import { discoverPublicRoutes } from './seo/route-discovery.mjs';
 
 const SITE_URL = 'https://aisoftwaretechnology.in';
 const DEFAULT_OG_IMAGE = 'https://i.ibb.co/GvYrMC4M/Chat-GPT-Image-Oct-30-2026-07-57-59-PM.png';
 const allPortfolio = [...portfolioProjectsA, ...portfolioProjectsB, ...portfolioProjectsC];
+const portfolioBySlug = new Map(allPortfolio.map((p) => [p.slug, p]));
+const caseStudyBySlug = new Map(caseStudies.map((c) => [c.slug, c]));
+const serviceBySlug = new Map(servicesData.map((s) => [s.slug, s]));
+const blogBySlug = new Map(blogPosts.map((b) => [b.slug, b]));
+const industryBySlug = new Map(Object.values(industriesData).map((ind) => [ind.slug, ind]));
 
 function escapeHtml(str = '') {
   return String(str)
@@ -66,7 +80,6 @@ const staticRouteSpecs = [
     routePath: '/',
     priority: '1.0',
     changefreq: 'weekly',
-    lastmod: '2026-11-03',
     title: 'AI Software Technology | Custom Software Development Company in Delhi, India',
     description:
       'AI Software Technology, a brand of Digi India Solutions in New Delhi, builds custom ERP, CRM, HRMS, SaaS platforms, mobile apps, and AI automation software. Call +91 9990390519.',
@@ -157,7 +170,6 @@ const staticRouteSpecs = [
     routePath: '/about',
     priority: '0.8',
     changefreq: 'monthly',
-    lastmod: '2026-11-03',
     title: 'About AI Software Technology | Custom Software Development Brand of Digi India Solutions',
     description:
       'AI Software Technology is a specialized software development brand of Digi India Solutions, created to help businesses replace manual operations and disconnected tools with powerful, easy-to-use digital systems including ERP, CRM, HRMS, SaaS and AI automation.',
@@ -202,7 +214,6 @@ const staticRouteSpecs = [
     routePath: '/contact',
     priority: '0.9',
     changefreq: 'monthly',
-    lastmod: '2026-11-03',
     title: 'Contact AI Software Technology | Book Free Software Demo | +91 9990390519',
     description:
       'Contact AI Software Technology (A Brand of Digi India Solutions) at House No. 158-159, Pocket-10, Sector-24, Rohini, New Delhi – 110085. Call or WhatsApp +91 9990390519 or email aisoftwaretechnology2026@gmail.com for Custom Software, ERP, CRM, HRMS, SaaS, Mobile Apps, and AI Automation.',
@@ -248,7 +259,6 @@ const staticRouteSpecs = [
     routePath: '/sitemap',
     priority: '0.6',
     changefreq: 'weekly',
-    lastmod: '2026-11-03',
     title: 'HTML Sitemap | Complete Directory of Pages — AI Software Technology',
     description:
       'Browse all 164+ public pages on AI Software Technology (A Brand of Digi India Solutions) — including 25 software services, 42 portfolio projects, 9 case studies, 8 industry verticals, and 63 B2B technology guides.',
@@ -312,7 +322,6 @@ const staticRouteSpecs = [
     routePath: '/services',
     priority: '0.9',
     changefreq: 'weekly',
-    lastmod: '2026-11-03',
     title: 'Custom Software Development Services | ERP, CRM, HRMS, SaaS & Mobile Apps | AI Software Technology',
     description:
       'Explore 25+ custom software development services by AI Software Technology — A Brand of Digi India Solutions. Custom ERP, CRM, HRMS, SaaS applications, mobile apps, industry-specific software, and AI automation. Call +91 9990390519.',
@@ -357,7 +366,6 @@ const staticRouteSpecs = [
     routePath: '/portfolio',
     priority: '0.9',
     changefreq: 'weekly',
-    lastmod: '2026-11-03',
     title: 'Software & Web Portfolio | AI Software Technology — A Brand of Digi India Solutions',
     description:
       'Explore AI Software Technology portfolio of 42+ delivered projects across custom ERP systems, order management software, multi-portal web platforms, factory attendance & HRMS portals, CRM platforms, SaaS applications, mobile apps, and business web solutions.',
@@ -402,7 +410,6 @@ const staticRouteSpecs = [
     routePath: '/industries',
     priority: '0.8',
     changefreq: 'monthly',
-    lastmod: '2026-11-03',
     title: 'Industries We Serve | AI Software Technology — Healthcare, Education, Real Estate, Manufacturing',
     description:
       'AI Software Technology (A Brand of Digi India Solutions) delivers custom ERP, CRM, HRMS, and industry-specific management software across Healthcare, Education, Real Estate, Manufacturing, Retail, Finance, Hospitality, and Construction.',
@@ -448,7 +455,6 @@ const staticRouteSpecs = [
     routePath: '/case-studies',
     priority: '0.9',
     changefreq: 'weekly',
-    lastmod: '2026-11-03',
     title: 'Software Case Studies | AI Software Technology — ERP, CRM, HRMS & Automation Implementations',
     description:
       'Explore software architecture and implementation case studies from AI Software Technology (A Brand of Digi India Solutions) across Custom ERP, Sales CRM, HRMS & Payroll, Healthcare HMS, Education ERP, and AI Workflow Automation.',
@@ -493,7 +499,6 @@ const staticRouteSpecs = [
     routePath: '/blogs',
     priority: '0.9',
     changefreq: 'weekly',
-    lastmod: '2026-11-03',
     title: 'Software, Web Development & Cloud Computing Blog | AI Software Technology',
     description:
       'Practical guides and B2B insights on Web Development, Cloud Computing, Custom Software, CRM, ERP, HRMS, SaaS architecture, and AI automation from AI Software Technology (A Brand of Digi India Solutions).',
@@ -538,7 +543,6 @@ const staticRouteSpecs = [
     routePath: '/careers',
     priority: '0.7',
     changefreq: 'monthly',
-    lastmod: '2026-11-03',
     title: 'Careers at AI Software Technology | Software Engineering & Product Roles',
     description:
       'Join AI Software Technology (A Brand of Digi India Solutions) in New Delhi. Explore open roles in Full-Stack Engineering, AI Automation, Mobile Apps, UI/UX Design, and Business Analysis.',
@@ -578,7 +582,6 @@ const staticRouteSpecs = [
     routePath: '/calculators',
     priority: '0.8',
     changefreq: 'monthly',
-    lastmod: '2026-11-03',
     title: 'Software Project Cost Calculator | AI Software Technology',
     description:
       'Estimate scope and investment for Custom Software, ERP, CRM, HRMS, Mobile Apps, and Web Applications with AI Software Technology (A Brand of Digi India Solutions).',
@@ -623,7 +626,6 @@ const staticRouteSpecs = [
     routePath: '/ai-features',
     priority: '0.8',
     changefreq: 'monthly',
-    lastmod: '2026-11-03',
     title: 'AI Automation & Business Intelligence | AI Software Technology',
     description:
       'Explore AI Chatbots, AI Lead Qualification, WhatsApp Automation, and Intelligent Business Workflows built by AI Software Technology (A Brand of Digi India Solutions).',
@@ -668,7 +670,6 @@ const staticRouteSpecs = [
     routePath: '/knowledge-center',
     priority: '0.8',
     changefreq: 'weekly',
-    lastmod: '2026-11-03',
     title: 'Knowledge Center | AI Software Technology — Guides, Case Studies & Documentation',
     description:
       'Explore software architecture guides, ERP/CRM/HRMS documentation, case studies, and technical resources from AI Software Technology (A Brand of Digi India Solutions).',
@@ -708,7 +709,6 @@ const staticRouteSpecs = [
     routePath: '/our-journey',
     priority: '0.7',
     changefreq: 'monthly',
-    lastmod: '2026-11-03',
     title: 'Our Journey | AI Software Technology — A Brand of Digi India Solutions',
     description:
       'Explore the evolution of AI Software Technology, a dedicated custom software development brand of Digi India Solutions, delivering ERP, CRM, HRMS, SaaS, Mobile Apps, and AI Automation.',
@@ -755,7 +755,6 @@ const staticRouteSpecs = [
     routePath: '/comparisons/react-vs-angular',
     priority: '0.7',
     changefreq: 'monthly',
-    lastmod: '2026-11-03',
     title: 'React vs Angular Comparison Guide | Frontend Architecture — AI Software Technology',
     description:
       'Compare React vs Angular for custom web applications, ERP dashboards, and SaaS platforms. Evaluate performance, learning curve, ecosystem flexibility, and enterprise scalability with AI Software Technology.',
@@ -805,7 +804,6 @@ const staticRouteSpecs = [
     routePath: '/comparisons/flutter-vs-react-native',
     priority: '0.7',
     changefreq: 'monthly',
-    lastmod: '2026-11-03',
     title: 'Flutter vs React Native Comparison | Cross-Platform Mobile App Guide — AI Software Technology',
     description:
       'Compare Flutter vs React Native for Android and iOS mobile app development. Evaluate rendering performance, development speed, native integration, and maintenance with AI Software Technology.',
@@ -855,7 +853,6 @@ const staticRouteSpecs = [
     routePath: '/comparisons/custom-software-vs-saas',
     priority: '0.7',
     changefreq: 'monthly',
-    lastmod: '2026-11-03',
     title: 'Custom Software vs SaaS Comparison | Build vs Buy Guide — AI Software Technology',
     description:
       'Compare Custom Software Development vs Ready-Made SaaS for ERP, CRM, HRMS, and business operations. Analyze long-term ownership cost, workflow fit, data security, and scalability.',
@@ -903,309 +900,407 @@ const staticRouteSpecs = [
   },
 ];
 
+// Apply keywordMap overrides cleanly across all static & comparison routes
+const enrichedStaticRouteSpecs = staticRouteSpecs.map((spec) => {
+  const kw = STATIC_ROUTE_KEYWORD_MAP[spec.routePath];
+  if (!kw) return spec;
+  return {
+    ...spec,
+    title: kw.seoTitle,
+    description: kw.metaDescription,
+    ogTitle: kw.seoTitle,
+    ogDescription: kw.metaDescription,
+    h1: kw.h1,
+    intro: kw.answerFirstSummary,
+  };
+});
+
 // 8 Industry Routes
-const industryRouteSpecs = Object.values(industriesData).map((ind) => ({
-  routePath: `/industries/${ind.slug}`,
-  priority: '0.8',
-  changefreq: 'monthly',
-  lastmod: '2026-11-03',
-  title: ind.meta.title,
-  description: `${ind.meta.description} Call +91 9990390519.`,
-  ogType: 'website',
-  ogImage: ind.heroImage,
-  ogImageAlt: `${ind.title} Software Solutions — AI Software Technology`,
-  h1: `Custom ${ind.title} Software Solutions`,
-  intro: ind.meta.description,
-  image: {
-    src: ind.heroImage,
-    alt: `${ind.title} Software Solutions — AI Software Technology`,
-  },
-  sections: [
-    {
-      heading: `${ind.title} Pain Points We Solve`,
-      items: ind.challenges.map((c) => `${c.title}: ${c.desc}`),
+const industryRouteSpecs = Object.values(industriesData).map((ind) => {
+  const kw = INDUSTRY_SEO_MAP[ind.slug];
+  const mappedServices = (kw?.relatedServiceSlugs || [])
+    .map((slug) => serviceBySlug.get(slug))
+    .filter(Boolean);
+  const mappedCaseStudies = (kw?.relatedCaseStudySlugs || [])
+    .map((slug) => caseStudyBySlug.get(slug))
+    .filter(Boolean);
+  const mappedPortfolio = (kw?.relatedPortfolioSlugs || [])
+    .map((slug) => portfolioBySlug.get(slug))
+    .filter(Boolean);
+  const industryFaqs = kw?.faqs || [];
+
+  return {
+    routePath: `/industries/${ind.slug}`,
+    priority: '0.8',
+    changefreq: 'monthly',
+    title: kw?.seoTitle || ind.meta.title,
+    description: kw?.metaDescription || `${ind.meta.description} Call +91 9990390519.`,
+    ogTitle: kw?.seoTitle || ind.meta.title,
+    ogDescription: kw?.metaDescription || ind.meta.description,
+    ogType: 'website',
+    ogImage: ind.heroImage,
+    ogImageAlt: `${ind.title} Software Solutions — AI Software Technology`,
+    h1: kw?.h1 || `Custom ${ind.title} Software Solutions`,
+    intro: kw?.answerFirstSummary || ind.meta.description,
+    image: {
+      src: ind.heroImage,
+      alt: `${ind.title} Software Solutions — AI Software Technology`,
     },
-    {
-      heading: `Our ${ind.title} Software Suite`,
-      items: ind.solutions.map((s) => `${s.title}: ${s.desc}`),
-    },
-    {
-      heading: `Core ${ind.title} Modules`,
-      items: ind.modules,
-    },
-  ],
-  links: [
-    { label: 'Custom Software Development', href: '/services/custom-software' },
-    { label: 'ERP Software Solutions', href: '/services/erp-solutions' },
-    { label: 'CRM & Lead Management', href: '/services/crm-solutions' },
-    { label: 'HRMS & Attendance Software', href: '/services/hrms-software' },
-    { label: 'All Industries We Serve', href: '/industries' },
-    { label: 'Request Free Consultation', href: '/contact' },
-  ],
-  schema: [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'Service',
-      name: `Custom ${ind.title} Software Solutions`,
-      description: ind.meta.description,
-      url: ind.meta.canonicalUrl,
-      image: resolveImageUrl(ind.heroImage),
-      serviceType: `${ind.title} Software Development`,
-      provider: providerEntity,
-      areaServed: [
-        { '@type': 'City', name: 'New Delhi' },
-        { '@type': 'Country', name: 'India' },
-      ],
-    },
-    makeBreadcrumb([
-      { name: 'Home', url: `${SITE_URL}/` },
-      { name: 'Industries', url: `${SITE_URL}/industries` },
-      { name: ind.title, url: ind.meta.canonicalUrl },
-    ]),
-  ],
-}));
+    sections: [
+      {
+        heading: `${ind.title} Pain Points We Solve`,
+        items: ind.challenges.map((c) => `${c.title}: ${c.desc}`),
+      },
+      {
+        heading: `Our ${ind.title} Software Suite`,
+        items: ind.solutions.map((s) => `${s.title}: ${s.desc}`),
+      },
+      {
+        heading: `Core ${ind.title} Modules`,
+        items: ind.modules,
+      },
+      ...(industryFaqs.length > 0
+        ? [
+            {
+              heading: `Frequently Asked Questions — ${ind.title} Software`,
+              items: industryFaqs.map((faq) => `Q: ${faq.q} — A: ${faq.a}`),
+            },
+          ]
+        : []),
+    ],
+    links: [
+      ...mappedServices.map((s) => ({ label: s.name, href: `/services/${s.slug}` })),
+      ...mappedCaseStudies.map((cs) => ({ label: `Case Study: ${cs.title}`, href: `/case-studies/${cs.slug}` })),
+      ...mappedPortfolio.map((p) => ({ label: `Portfolio: ${p.name}`, href: `/portfolio/${p.slug}` })),
+      { label: 'All Industries We Serve', href: '/industries' },
+      { label: 'Request Free Consultation', href: '/contact' },
+    ],
+    schema: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        name: kw?.h1 || `Custom ${ind.title} Software Solutions`,
+        description: kw?.metaDescription || ind.meta.description,
+        url: ind.meta.canonicalUrl,
+        image: resolveImageUrl(ind.heroImage),
+        serviceType: kw?.primaryKeyword || `${ind.title} Software Development`,
+        provider: providerEntity,
+        areaServed: [
+          { '@type': 'City', name: 'New Delhi' },
+          { '@type': 'AdministrativeArea', name: 'Delhi NCR' },
+          { '@type': 'Country', name: 'India' },
+        ],
+      },
+      ...(industryFaqs.length > 0
+        ? [
+            {
+              '@context': 'https://schema.org',
+              '@type': 'FAQPage',
+              mainEntity: industryFaqs.map((faq) => ({
+                '@type': 'Question',
+                name: faq.q,
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: faq.a,
+                },
+              })),
+            },
+          ]
+        : []),
+      makeBreadcrumb([
+        { name: 'Home', url: `${SITE_URL}/` },
+        { name: 'Industries', url: `${SITE_URL}/industries` },
+        { name: ind.title, url: ind.meta.canonicalUrl },
+      ]),
+    ],
+  };
+});
 
 // 25 Service Detail Routes
-const serviceRouteSpecs = servicesData.map((srv) => ({
-  routePath: `/services/${srv.slug}`,
-  priority: '0.9',
-  changefreq: 'weekly',
-  lastmod: '2026-11-03',
-  title: `${srv.name} Company in India | AI Software Technology`,
-  description: `${srv.heroDesc} Call +91 9990390519 for a free consultation with AI Software Technology — A Brand of Digi India Solutions.`,
-  ogTitle: `${srv.name} — AI Software Technology`,
-  ogDescription: srv.heroDesc,
-  ogType: 'website',
-  ogImage: srv.bannerImage,
-  ogImageAlt: srv.imageAlt || `${srv.name} Services — AI Software Technology`,
-  h1: srv.name,
-  intro: `${srv.tagline}. ${srv.heroDesc}`,
-  image: {
-    src: srv.bannerImage,
-    alt: srv.imageAlt || `${srv.name} Services — AI Software Technology`,
-  },
-  sections: [
-    {
-      heading: `Key Features & Capabilities of ${srv.name}`,
-      items: srv.features.map((f) => `${f.title}: ${f.desc}`),
+const serviceRouteSpecs = servicesData.map((srv) => {
+  const kw = SERVICE_SEO_MAP[srv.slug];
+  const relatedPortfolios = (kw?.relatedPortfolioSlugs || [])
+    .map((slug) => portfolioBySlug.get(slug))
+    .filter(Boolean);
+  const relatedBlogs = (kw?.relatedBlogSlugs || [])
+    .map((slug) => blogBySlug.get(slug))
+    .filter(Boolean);
+  const relatedIndustries = (kw?.relatedIndustrySlugs || [])
+    .map((slug) => industryBySlug.get(slug))
+    .filter(Boolean);
+
+  return {
+    routePath: `/services/${srv.slug}`,
+    priority: '0.9',
+    changefreq: 'weekly',
+    title: kw?.seoTitle || `${srv.name} Company in India | AI Software Technology`,
+    description:
+      kw?.metaDescription ||
+      `${srv.heroDesc} Call +91 9990390519 for a free consultation with AI Software Technology — A Brand of Digi India Solutions.`,
+    ogTitle: kw?.seoTitle || `${srv.name} — AI Software Technology`,
+    ogDescription: kw?.metaDescription || srv.heroDesc,
+    ogType: 'website',
+    ogImage: srv.bannerImage,
+    ogImageAlt: srv.imageAlt || `${srv.name} Services — AI Software Technology`,
+    h1: kw?.h1 || srv.name,
+    intro: kw?.answerFirstSummary || `${srv.tagline}. ${srv.heroDesc}`,
+    image: {
+      src: srv.bannerImage,
+      alt: srv.imageAlt || `${srv.name} Services — AI Software Technology`,
     },
-    {
-      heading: 'Our 5-Step Software Engineering Process',
-      items: srv.process.map((p) => `Step ${p.step} — ${p.title}: ${p.desc}`),
-    },
-    {
-      heading: 'Technologies & Industries Served',
-      items: [
-        `Technologies: ${srv.technologies.join(', ')}`,
-        `Industries: ${srv.industries.join(', ')}`,
-      ],
-    },
-    {
-      heading: `Frequently Asked Questions — ${srv.name}`,
-      items: srv.faqs.map((faq) => `Q: ${faq.q} — A: ${faq.a}`),
-    },
-  ],
-  links: [
-    { label: 'All Software Services', href: '/services' },
-    { label: 'Software Portfolio', href: '/portfolio' },
-    { label: 'Implementation Case Studies', href: '/case-studies' },
-    { label: 'Project Cost Calculator', href: '/calculators' },
-    { label: 'Book Free Consultation (+91 9990390519)', href: '/contact' },
-  ],
-  schema: [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'Service',
-      name: srv.name,
-      description: srv.heroDesc,
-      url: `${SITE_URL}/services/${srv.slug}`,
-      image: resolveImageUrl(srv.bannerImage),
-      serviceType: srv.name,
-      provider: providerEntity,
-      areaServed: [
-        { '@type': 'City', name: 'New Delhi' },
-        { '@type': 'Country', name: 'India' },
-      ],
-    },
-    ...(srv.faqs && srv.faqs.length > 0
-      ? [
-          {
-            '@context': 'https://schema.org',
-            '@type': 'FAQPage',
-            mainEntity: srv.faqs.map((f) => ({
-              '@type': 'Question',
-              name: f.q,
-              acceptedAnswer: {
-                '@type': 'Answer',
-                text: f.a,
-              },
-            })),
-          },
-        ]
-      : []),
-    makeBreadcrumb([
-      { name: 'Home', url: `${SITE_URL}/` },
-      { name: 'Services', url: `${SITE_URL}/services` },
-      { name: srv.name, url: `${SITE_URL}/services/${srv.slug}` },
-    ]),
-  ],
-}));
+    sections: [
+      ...(kw?.problemsSolved?.length
+        ? [
+            {
+              heading: `Business Problems Solved by ${srv.name}`,
+              items: kw.problemsSolved.map((p) => `${p.title}: ${p.desc}`),
+            },
+          ]
+        : []),
+      {
+        heading: `Key Features & Capabilities of ${srv.name}`,
+        items: srv.features.map((f) => `${f.title}: ${f.desc}`),
+      },
+      ...(kw?.integrationCapabilities?.length
+        ? [
+            {
+              heading: `Integration Capabilities for ${srv.name}`,
+              items: kw.integrationCapabilities.map((i) => `${i.title}: ${i.desc}`),
+            },
+          ]
+        : []),
+      {
+        heading: 'Our 5-Step Software Engineering Process',
+        items: srv.process.map((p) => `Step ${p.step} — ${p.title}: ${p.desc}`),
+      },
+      {
+        heading: 'Technologies & Industries Served',
+        items: [
+          `Technologies: ${srv.technologies.join(', ')}`,
+          `Industries: ${srv.industries.join(', ')}`,
+        ],
+      },
+      {
+        heading: `Frequently Asked Questions — ${srv.name}`,
+        items: srv.faqs.map((faq) => `Q: ${faq.q} — A: ${faq.a}`),
+      },
+    ],
+    links: [
+      ...relatedIndustries.map((ind) => ({
+        label: `${ind.title} Software Solutions`,
+        href: `/industries/${ind.slug}`,
+      })),
+      ...relatedPortfolios.map((p) => ({
+        label: `Portfolio: ${p.name}`,
+        href: `/portfolio/${p.slug}`,
+      })),
+      ...relatedBlogs.map((b) => ({
+        label: `Guide: ${b.title}`,
+        href: `/blogs/${b.slug}`,
+      })),
+      { label: 'All Software Services', href: '/services' },
+      { label: 'Implementation Case Studies', href: '/case-studies' },
+      { label: 'Project Cost Calculator', href: '/calculators' },
+      { label: 'Book Free Consultation (+91 9990390519)', href: '/contact' },
+    ],
+    schema: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        name: kw?.h1 || srv.name,
+        description: kw?.metaDescription || srv.heroDesc,
+        url: `${SITE_URL}/services/${srv.slug}`,
+        image: resolveImageUrl(srv.bannerImage),
+        serviceType: kw?.primaryKeyword || srv.name,
+        provider: providerEntity,
+        areaServed: [
+          { '@type': 'City', name: 'New Delhi' },
+          { '@type': 'AdministrativeArea', name: 'Delhi NCR' },
+          { '@type': 'Country', name: 'India' },
+        ],
+      },
+      ...(srv.faqs && srv.faqs.length > 0
+        ? [
+            {
+              '@context': 'https://schema.org',
+              '@type': 'FAQPage',
+              mainEntity: srv.faqs.map((f) => ({
+                '@type': 'Question',
+                name: f.q,
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: f.a,
+                },
+              })),
+            },
+          ]
+        : []),
+      makeBreadcrumb([
+        { name: 'Home', url: `${SITE_URL}/` },
+        { name: 'Services', url: `${SITE_URL}/services` },
+        { name: srv.name, url: `${SITE_URL}/services/${srv.slug}` },
+      ]),
+    ],
+  };
+});
 
 // 42 Portfolio Detail Routes
-const portfolioRouteSpecs = allPortfolio.map((proj) => ({
-  routePath: `/portfolio/${proj.slug}`,
-  priority: '0.7',
-  changefreq: 'monthly',
-  lastmod: '2026-11-03',
-  title: `${proj.name} — ${proj.category} Project | AI Software Technology`,
-  description: `${proj.description} Built with ${proj.technologies.slice(0, 4).join(', ')} by AI Software Technology (A Brand of Digi India Solutions).`,
-  ogTitle: `${proj.name} | AI Software Technology Portfolio`,
-  ogDescription: proj.description,
-  ogType: 'website',
-  ogImage: proj.image,
-  ogImageAlt: proj.imageAlt || `${proj.name} — ${proj.category} Project by AI Software Technology`,
-  h1: proj.name,
-  intro: `${proj.category} (${proj.industry}) — ${proj.description}`,
-  image: {
-    src: proj.image,
-    alt: proj.imageAlt || `${proj.name} — ${proj.category} Project by AI Software Technology`,
-  },
-  sections: [
-    {
-      heading: 'Business Challenge & Project Goals',
-      items: [proj.challenge, ...proj.goals],
+const portfolioRouteSpecs = allPortfolio.map((proj) => {
+  const kw = resolvePortfolioSeo(proj);
+  return {
+    routePath: `/portfolio/${proj.slug}`,
+    priority: '0.7',
+    changefreq: 'monthly',
+    title: kw.seoTitle,
+    description: kw.metaDescription,
+    ogTitle: kw.seoTitle,
+    ogDescription: kw.metaDescription,
+    ogType: 'website',
+    ogImage: proj.image,
+    ogImageAlt: proj.imageAlt || `${proj.name} — ${proj.category} Project by AI Software Technology`,
+    h1: proj.name,
+    intro: `${proj.category} (${proj.industry}) — ${proj.description}`,
+    image: {
+      src: proj.image,
+      alt: proj.imageAlt || `${proj.name} — ${proj.category} Project by AI Software Technology`,
     },
-    {
-      heading: 'Key Features Delivered',
-      items: proj.features,
-    },
-    {
-      heading: 'Technology Stack & Engineering Process',
-      items: [
-        `Technologies: ${proj.technologies.join(', ')}`,
-        `Architecture & Development: ${proj.devProcess}`,
-      ],
-    },
-  ],
-  links: [
-    ...(proj.caseStudyUrl ? [{ label: `Read Full Case Study: ${proj.name}`, href: proj.caseStudyUrl }] : []),
-    { label: 'Custom Software Development', href: '/services/custom-software' },
-    { label: 'Website & Web App Development', href: '/services/website-development' },
-    { label: 'ERP Software Solutions', href: '/services/erp-solutions' },
-    { label: 'All Portfolio Projects', href: '/portfolio' },
-    { label: 'Request Similar Project Quote', href: '/contact' },
-  ],
-  schema: [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'CreativeWork',
-      name: proj.name,
-      description: proj.description,
-      url: `${SITE_URL}/portfolio/${proj.slug}`,
-      image: resolveImageUrl(proj.image),
-      creator: {
-        '@type': 'Organization',
-        name: 'AI Software Technology',
-        url: SITE_URL,
-        parentOrganization: {
-          '@type': 'Organization',
-          name: 'Digi India Solutions',
-        },
+    sections: [
+      {
+        heading: 'Business Challenge & Project Goals',
+        items: [proj.challenge, ...proj.goals],
       },
-      about: { '@type': 'Thing', name: proj.industry },
-      keywords: proj.technologies.join(', '),
-    },
-    makeBreadcrumb([
-      { name: 'Home', url: `${SITE_URL}/` },
-      { name: 'Portfolio', url: `${SITE_URL}/portfolio` },
-      { name: proj.name, url: `${SITE_URL}/portfolio/${proj.slug}` },
-    ]),
-  ],
-}));
+      {
+        heading: 'Key Features Delivered',
+        items: proj.features,
+      },
+      {
+        heading: 'Technology Stack & Engineering Process',
+        items: [
+          `Technologies: ${proj.technologies.join(', ')}`,
+          `Architecture & Development: ${proj.devProcess}`,
+        ],
+      },
+    ],
+    links: [
+      ...(proj.caseStudyUrl ? [{ label: `Read Full Case Study: ${proj.name}`, href: proj.caseStudyUrl }] : []),
+      { label: 'Custom Software Development', href: '/services/custom-software' },
+      { label: 'Website & Web App Development', href: '/services/website-development' },
+      { label: 'ERP Software Solutions', href: '/services/erp-solutions' },
+      { label: 'All Portfolio Projects', href: '/portfolio' },
+      { label: 'Request Similar Project Quote', href: '/contact' },
+    ],
+    schema: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'CreativeWork',
+        name: proj.name,
+        description: kw.metaDescription,
+        url: `${SITE_URL}/portfolio/${proj.slug}`,
+        image: resolveImageUrl(proj.image),
+        creator: {
+          '@type': 'Organization',
+          name: 'AI Software Technology',
+          url: SITE_URL,
+          parentOrganization: {
+            '@type': 'Organization',
+            name: 'Digi India Solutions',
+          },
+        },
+        about: { '@type': 'Thing', name: proj.industry },
+        keywords: [kw.primaryKeyword, ...kw.supportingKeywords, ...proj.technologies].join(', '),
+      },
+      makeBreadcrumb([
+        { name: 'Home', url: `${SITE_URL}/` },
+        { name: 'Portfolio', url: `${SITE_URL}/portfolio` },
+        { name: proj.name, url: `${SITE_URL}/portfolio/${proj.slug}` },
+      ]),
+    ],
+  };
+});
 
 // 9 Case Study Detail Routes
-const caseStudyRouteSpecs = caseStudies.map((cs) => ({
-  routePath: `/case-studies/${cs.slug}`,
-  priority: '0.8',
-  changefreq: 'monthly',
-  lastmod: '2026-11-03',
-  title: `${cs.title} | Case Study — AI Software Technology`,
-  description: `${cs.overview} Explore business challenges, solution architecture, key features, workflow, and technology stack by AI Software Technology.`,
-  ogTitle: `${cs.title} — Case Study`,
-  ogDescription: cs.overview,
-  ogType: 'article',
-  ogImage: cs.image,
-  ogImageAlt: cs.imageAlt || cs.title,
-  h1: cs.title,
-  intro: `${cs.industry} Case Study — ${cs.overview}`,
-  image: {
-    src: cs.image,
-    alt: cs.imageAlt || cs.title,
-  },
-  sections: [
-    {
-      heading: 'Business Challenge & Engineering Approach',
-      items: [cs.challenge, cs.approach],
+const caseStudyRouteSpecs = caseStudies.map((cs) => {
+  const kw = resolveCaseStudySeo(cs);
+  return {
+    routePath: `/case-studies/${cs.slug}`,
+    priority: '0.8',
+    changefreq: 'monthly',
+    title: kw.seoTitle,
+    description: kw.metaDescription,
+    ogTitle: kw.seoTitle,
+    ogDescription: kw.metaDescription,
+    ogType: 'article',
+    ogImage: cs.image,
+    ogImageAlt: cs.imageAlt || cs.title,
+    h1: cs.title,
+    intro: `${cs.industry} Case Study — ${cs.overview}`,
+    image: {
+      src: cs.image,
+      alt: cs.imageAlt || cs.title,
     },
-    {
-      heading: 'Key Solution Capabilities',
-      items: cs.solution,
-    },
-    {
-      heading: 'Operational Workflow',
-      items: cs.workflow,
-    },
-    {
-      heading: 'Business Benefits & Technology Stack',
-      items: [...cs.businessBenefits, `Tech Stack: ${cs.techStack.join(', ')}`],
-    },
-  ],
-  links: [
-    ...cs.relatedServices.map((rs) => ({ label: rs.name, href: `/services/${rs.slug}` })),
-    { label: 'All Software Case Studies', href: '/case-studies' },
-    { label: 'View Software Portfolio', href: '/portfolio' },
-    { label: 'Discuss Your Requirement', href: '/contact' },
-  ],
-  schema: [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'Article',
-      headline: cs.title,
-      description: cs.overview,
-      url: `${SITE_URL}/case-studies/${cs.slug}`,
-      image: resolveImageUrl(cs.image),
-      author: {
-        '@type': 'Organization',
-        name: 'AI Software Technology',
-        url: SITE_URL,
+    sections: [
+      {
+        heading: 'Business Challenge & Engineering Approach',
+        items: [cs.challenge, cs.approach],
       },
-      publisher: {
-        '@type': 'Organization',
-        name: 'AI Software Technology',
-        url: SITE_URL,
-        parentOrganization: {
+      {
+        heading: 'Key Solution Capabilities',
+        items: cs.solution,
+      },
+      {
+        heading: 'Operational Workflow',
+        items: cs.workflow,
+      },
+      {
+        heading: 'Business Benefits & Technology Stack',
+        items: [...cs.businessBenefits, `Tech Stack: ${cs.techStack.join(', ')}`],
+      },
+    ],
+    links: [
+      ...cs.relatedServices.map((rs) => ({ label: rs.name, href: `/services/${rs.slug}` })),
+      { label: 'All Software Case Studies', href: '/case-studies' },
+      { label: 'View Software Portfolio', href: '/portfolio' },
+      { label: 'Discuss Your Requirement', href: '/contact' },
+    ],
+    schema: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: cs.title,
+        description: kw.metaDescription,
+        url: `${SITE_URL}/case-studies/${cs.slug}`,
+        image: resolveImageUrl(cs.image),
+        author: {
           '@type': 'Organization',
-          name: 'Digi India Solutions',
+          name: 'AI Software Technology',
+          url: SITE_URL,
         },
+        publisher: {
+          '@type': 'Organization',
+          name: 'AI Software Technology',
+          url: SITE_URL,
+          parentOrganization: {
+            '@type': 'Organization',
+            name: 'Digi India Solutions',
+          },
+        },
+        about: { '@type': 'Thing', name: cs.industry },
+        keywords: [kw.primaryKeyword, ...kw.supportingKeywords, ...cs.tags].join(', '),
       },
-      about: { '@type': 'Thing', name: cs.industry },
-      keywords: cs.tags.join(', '),
-    },
-    makeBreadcrumb([
-      { name: 'Home', url: `${SITE_URL}/` },
-      { name: 'Case Studies', url: `${SITE_URL}/case-studies` },
-      { name: cs.title, url: `${SITE_URL}/case-studies/${cs.slug}` },
-    ]),
-  ],
-}));
+      makeBreadcrumb([
+        { name: 'Home', url: `${SITE_URL}/` },
+        { name: 'Case Studies', url: `${SITE_URL}/case-studies` },
+        { name: cs.title, url: `${SITE_URL}/case-studies/${cs.slug}` },
+      ]),
+    ],
+  };
+});
 
 // 63 Blog Detail Routes
 const blogRouteSpecs = blogPosts.map((post) => {
-  const resolvedTitle = post.seoTitle || `${post.title} | AI Software Technology Blog`;
-  const resolvedDescription =
-    post.metaDescription ||
-    post.excerpt ||
-    'Practical insights on custom software development, Web Development, Cloud Computing, ERP, CRM, HRMS, SaaS, and AI automation from AI Software Technology (A Brand of Digi India Solutions).';
+  const kw = resolveBlogSeo(post);
+  const resolvedTitle = kw.seoTitle;
+  const resolvedDescription = kw.metaDescription;
   const headings = post.content
     .split('\n')
     .filter((l) => l.trim().startsWith('## '))
@@ -1235,10 +1330,9 @@ const blogRouteSpecs = blogPosts.map((post) => {
     routePath: `/blogs/${post.slug}`,
     priority: post.slug.includes('2027') || post.featured ? '0.8' : '0.7',
     changefreq: 'monthly',
-    lastmod: '2026-11-03',
     title: resolvedTitle,
     description: resolvedDescription,
-    ogTitle: post.seoTitle || post.title,
+    ogTitle: resolvedTitle,
     ogDescription: resolvedDescription,
     ogType: 'article',
     ogImage: post.image,
@@ -1327,7 +1421,7 @@ const blogRouteSpecs = blogPosts.map((post) => {
 });
 
 const allCanonicalSpecs = [
-  ...staticRouteSpecs,
+  ...enrichedStaticRouteSpecs,
   ...industryRouteSpecs,
   ...serviceRouteSpecs,
   ...portfolioRouteSpecs,
@@ -1488,67 +1582,82 @@ function renderRouteHtml(baseHtml, spec, isNotFound = false) {
   return html;
 }
 
-const SAFE_LASTMOD = ['20', '25', '-03-01'].join('');
+function buildFallbackSpecFromDiscoveredRoute(route) {
+  const meta = route.pageMeta || {};
+  const slugLabel =
+    route.routePath === '/'
+      ? 'Home'
+      : route.routePath
+          .replace(/^\/+/, '')
+          .split('/')
+          .map((seg) =>
+            seg
+              .split('-')
+              .map((w) => (w ? w[0].toUpperCase() + w.slice(1) : ''))
+              .join(' ')
+          )
+          .join(' — ');
 
-function normalizeLastmod(rawDate) {
-  if (!rawDate || String(rawDate).startsWith('2026-')) {
-    return SAFE_LASTMOD;
-  }
-  return rawDate;
+  const title = meta.title || `${slugLabel} | AI Software Technology`;
+  const description =
+    meta.description ||
+    `${slugLabel} — AI Software Technology (A Brand of Digi India Solutions). Custom software development, ERP, CRM, HRMS, SaaS, mobile apps, and AI automation in New Delhi, India.`;
+  const canonicalUrl = route.canonicalUrl;
+
+  return {
+    routePath: route.routePath,
+    title,
+    description,
+    ogType: meta.ogType || 'website',
+    ogImage: DEFAULT_OG_IMAGE,
+    ogImageAlt: title,
+    h1: slugLabel,
+    intro: description,
+    sections: [],
+    links: [
+      { label: 'Home — AI Software Technology', href: '/' },
+      { label: 'All Software Services', href: '/services' },
+      { label: 'Contact AI Software Technology', href: '/contact' },
+    ],
+    schema: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: title,
+        description,
+        url: canonicalUrl,
+        isPartOf: { '@id': `${SITE_URL}/#website` },
+        about: { '@id': `${SITE_URL}/#organization` },
+      },
+      makeBreadcrumb([
+        { name: 'Home', url: `${SITE_URL}/` },
+        { name: slugLabel, url: canonicalUrl },
+      ]),
+    ],
+  };
 }
 
-function generateSitemapXml(specs) {
-  const urlEntries = specs
-    .map((spec) => {
-      const loc = spec.routePath === '/' ? `${SITE_URL}/` : `${SITE_URL}${spec.routePath}`;
-      const lastmod = normalizeLastmod(spec.lastmod);
-      return `  <url>
-    <loc>${loc}</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>${spec.changefreq}</changefreq>
-    <priority>${spec.priority}</priority>
-  </url>`;
-    })
-    .join('\n');
+// Reconcile rich prerender specs with automatically discovered public canonical routes
+const specByRoute = new Map(allCanonicalSpecs.map((spec) => [spec.routePath, spec]));
+const { routes: discoveredPublicRoutes } = discoverPublicRoutes({ syncManifest: false });
 
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urlEntries}
-</urlset>
-`;
-}
+const routesToPrerender = discoveredPublicRoutes.map((route) => {
+  const existing = specByRoute.get(route.routePath);
+  if (existing) return existing;
+  console.log(`[SEO] Auto-synthesizing prerender metadata for newly discovered route: ${route.routePath}`);
+  return buildFallbackSpecFromDiscoveredRoute(route);
+});
 
-function generateSitemapIndexXml() {
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <sitemap>
-    <loc>${SITE_URL}/sitemap.xml</loc>
-    <lastmod>${SAFE_LASTMOD}</lastmod>
-  </sitemap>
-</sitemapindex>
-`;
-}
-
-// Main Execution
+// Main Execution: Prerender all discovered public canonical routes + dist/404.html
+// (Sitemap generation and validation are handled by scripts/seo/generate-sitemap.mjs and validate-sitemap.mjs)
 const distDir = path.resolve('dist');
-const publicDir = path.resolve('public');
-
-// 1. Always keep public/sitemap.xml and public/sitemap_index.xml synchronized with the canonical route inventory
-const sitemapContent = generateSitemapXml(allCanonicalSpecs);
-const sitemapIndexContent = generateSitemapIndexXml();
-fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemapContent, 'utf8');
-fs.writeFileSync(path.join(publicDir, 'sitemap_index.xml'), sitemapIndexContent, 'utf8');
-console.log(`[SEO] Generated public/sitemap.xml (${allCanonicalSpecs.length} canonical URLs) and public/sitemap_index.xml.`);
-
-// 2. If dist/index.html exists, prerender all 164 canonical routes + dist/404.html
 const distIndexPath = path.join(distDir, 'index.html');
+
 if (fs.existsSync(distIndexPath)) {
   const baseHtml = fs.readFileSync(distIndexPath, 'utf8');
-  fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemapContent, 'utf8');
-  fs.writeFileSync(path.join(distDir, 'sitemap_index.xml'), sitemapIndexContent, 'utf8');
 
   let writtenCount = 0;
-  for (const spec of allCanonicalSpecs) {
+  for (const spec of routesToPrerender) {
     const routeHtml = renderRouteHtml(baseHtml, spec, false);
     if (spec.routePath === '/') {
       fs.writeFileSync(path.join(distDir, 'index.html'), routeHtml, 'utf8');
@@ -1587,5 +1696,10 @@ if (fs.existsSync(distIndexPath)) {
   const notFoundHtml = renderRouteHtml(baseHtml, notFoundSpec, true);
   fs.writeFileSync(path.join(distDir, '404.html'), notFoundHtml, 'utf8');
 
-  console.log(`[SEO] Static prerendering complete: ${writtenCount} canonical route HTML files + dist/404.html generated.`);
+  console.log(
+    `[SEO] Static prerendering complete: ${writtenCount} canonical route HTML files + dist/404.html generated.`
+  );
+} else {
+  console.warn('[SEO] Skipping prerender: dist/index.html not found. Run "vite build" first.');
 }
+

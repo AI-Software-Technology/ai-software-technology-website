@@ -5,6 +5,7 @@ import Footer from '@/components/feature/Footer';
 import FloatingCTA from '@/components/feature/FloatingCTA';
 import ScrollToTop from '@/components/feature/ScrollToTop';
 import { usePageSEO } from '@/hooks/usePageSEO';
+import { STATIC_ROUTE_KEYWORD_MAP } from '@/seo/keywordMap';
 import {
   validateEnquiryForm,
   openWhatsAppEnquiry,
@@ -163,10 +164,11 @@ export default function Calculators() {
   const [calcType, setCalcType] = useState<CalcType>('software');
   const calc = baseCalcOptions[calcType];
 
+  const seoSpec = STATIC_ROUTE_KEYWORD_MAP['/calculators'];
+
   usePageSEO({
-    title: 'Software Project Cost Calculator | AI Software Technology',
-    description:
-      'Estimate scope and investment for Custom Software, ERP, CRM, HRMS, Mobile Apps, and Web Applications with AI Software Technology (A Brand of Digi India Solutions).',
+    title: seoSpec.seoTitle,
+    description: seoSpec.metaDescription,
     canonical: 'https://aisoftwaretechnology.in/calculators',
     schema: [
       {

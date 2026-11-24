@@ -12,6 +12,7 @@ import { portfolioProjectsC } from '@/mocks/portfolioNew';
 import type { PortfolioProject } from '@/mocks/portfolio';
 import { usePageSEO } from '@/hooks/usePageSEO';
 import { sanitizeExternalUrl } from '@/utils/security';
+import { resolvePortfolioSeo } from '@/seo/keywordMap';
 
 const allProjects: PortfolioProject[] = [...portfolioProjectsA, ...portfolioProjectsB, ...portfolioProjectsC];
 
@@ -21,6 +22,7 @@ export default function PortfolioDetail() {
   const project = slug ? allProjects.find((p) => p.slug === slug) : undefined;
   const [activeGallery, setActiveGallery] = useState(0);
   const [activeTab, setActiveTab] = useState<'overview' | 'process' | 'results'>('overview');
+  const portfolioSeo = project ? resolvePortfolioSeo(project) : null;
 
   const projectSchema = project
     ? [
@@ -28,7 +30,7 @@ export default function PortfolioDetail() {
           '@context': 'https://schema.org',
           '@type': 'CreativeWork',
           name: project.name,
-          description: project.description,
+          description: portfolioSeo?.metaDescription || project.description,
           url: `https://aisoftwaretechnology.in/portfolio/${project.slug}`,
           image: project.image,
           creator: {
@@ -41,7 +43,10 @@ export default function PortfolioDetail() {
             },
           },
           about: { '@type': 'Thing', name: project.industry },
-          keywords: project.technologies.join(', '),
+          keywords: [
+            ...(portfolioSeo ? [portfolioSeo.primaryKeyword, ...portfolioSeo.supportingKeywords] : []),
+            ...project.technologies,
+          ].join(', '),
         },
         {
           '@context': 'https://schema.org',
@@ -56,14 +61,12 @@ export default function PortfolioDetail() {
     : undefined;
 
   usePageSEO({
-    title: project
-      ? `${project.name} — ${project.category} Project | AI Software Technology`
-      : 'Portfolio Project | AI Software Technology',
-    description: project
-      ? `${project.description} Built with ${project.technologies.slice(0, 4).join(', ')} by AI Software Technology (A Brand of Digi India Solutions).`
-      : 'Explore software and web development portfolio projects by AI Software Technology.',
-    ogTitle: project ? `${project.name} | AI Software Technology Portfolio` : 'Portfolio | AI Software Technology',
-    ogDescription: project?.description,
+    title: portfolioSeo?.seoTitle || 'Portfolio Project | AI Software Technology',
+    description:
+      portfolioSeo?.metaDescription ||
+      'Explore software and web development portfolio projects by AI Software Technology.',
+    ogTitle: portfolioSeo?.seoTitle || 'Portfolio | AI Software Technology',
+    ogDescription: portfolioSeo?.metaDescription || project?.description,
     ogImage: project?.image,
     ogImageAlt: project ? project.imageAlt || `${project.name} — ${project.category} Project by AI Software Technology` : undefined,
     canonical: project

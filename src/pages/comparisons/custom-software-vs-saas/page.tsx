@@ -5,14 +5,16 @@ import Footer from '@/components/feature/Footer';
 import FloatingCTA from '@/components/feature/FloatingCTA';
 import ScrollToTop from '@/components/feature/ScrollToTop';
 import { usePageSEO } from '@/hooks/usePageSEO';
+import { STATIC_ROUTE_KEYWORD_MAP } from '@/seo/keywordMap';
 
 export default function CustomSoftwareVsSaaS() {
   const navigate = useNavigate();
 
+  const seoSpec = STATIC_ROUTE_KEYWORD_MAP['/comparisons/custom-software-vs-saas'];
+
   usePageSEO({
-    title: 'Custom Software vs SaaS Comparison | Build vs Buy Guide — AI Software Technology',
-    description:
-      'Compare Custom Software Development vs Ready-Made SaaS for ERP, CRM, HRMS, and business operations. Analyze long-term ownership cost, workflow fit, data security, and scalability.',
+    title: seoSpec.seoTitle,
+    description: seoSpec.metaDescription,
     ogType: 'article',
     canonical: 'https://aisoftwaretechnology.in/comparisons/custom-software-vs-saas',
     schema: [

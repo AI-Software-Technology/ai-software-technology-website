@@ -1,0 +1,826 @@
+{
+  "schemaVersion": 1,
+  "description": "Automated page-level significant content fingerprints and truthful lastmod dates. Updated via `npm run sitemap:sync` or on verified content edits. Never assign a hardcoded global date.",
+  "routes": {
+    "/": {
+      "contentHash": "f55e4a516637953e",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/about": {
+      "contentHash": "bfd227c45b4dafe1",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/ai-features": {
+      "contentHash": "6b50bf955ef9e0cc",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/blogs": {
+      "contentHash": "6df5a5576fd2eabd",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/blogs/ai-chatbots-vs-human-support-complete-comparison-2026": {
+      "contentHash": "511a6922bb6dd8b5",
+      "lastmod": "2025-07-18",
+      "source": "content-metadata"
+    },
+    "/blogs/android-vs-ios-development-comparison-2026": {
+      "contentHash": "dce01148fa2db93c",
+      "lastmod": "2025-07-24",
+      "source": "content-metadata"
+    },
+    "/blogs/aws-vs-azure-vs-google-cloud": {
+      "contentHash": "09cbbd52bb182722",
+      "lastmod": "2026-11-01",
+      "source": "content-metadata"
+    },
+    "/blogs/benefits-crm-small-businesses-india-2026": {
+      "contentHash": "761a9627e29ea19f",
+      "lastmod": "2025-07-22",
+      "source": "content-metadata"
+    },
+    "/blogs/benefits-erp-manufacturing-companies-india-2026": {
+      "contentHash": "5cee49d376bdb539",
+      "lastmod": "2025-07-20",
+      "source": "content-metadata"
+    },
+    "/blogs/benefits-of-cloud-computing-for-small-business": {
+      "contentHash": "2cc5b72ddb068968",
+      "lastmod": "2026-11-01",
+      "source": "content-metadata"
+    },
+    "/blogs/benefits-of-custom-web-applications": {
+      "contentHash": "c5240b11af2863c5",
+      "lastmod": "2026-11-01",
+      "source": "content-metadata"
+    },
+    "/blogs/benefits-workflow-automation-2026": {
+      "contentHash": "45cde6f4830d8b34",
+      "lastmod": "2025-07-20",
+      "source": "content-metadata"
+    },
+    "/blogs/best-ai-automation-solutions-growing-companies-2026": {
+      "contentHash": "39655ccbb11749ff",
+      "lastmod": "2025-07-22",
+      "source": "content-metadata"
+    },
+    "/blogs/best-automation-tools-business-2026": {
+      "contentHash": "ef79f53ad81a089b",
+      "lastmod": "2025-07-14",
+      "source": "content-metadata"
+    },
+    "/blogs/best-software-solutions-for-schools-hospitals-and-service-businesses": {
+      "contentHash": "542e4cde1e9d0b32",
+      "lastmod": "2026-02-16",
+      "source": "content-metadata"
+    },
+    "/blogs/business-automation-guide-2026": {
+      "contentHash": "a3643fb4bb53d62b",
+      "lastmod": "2025-07-23",
+      "source": "content-metadata"
+    },
+    "/blogs/business-benefits-mobile-apps-2026": {
+      "contentHash": "a1466600c305a5a6",
+      "lastmod": "2025-07-12",
+      "source": "content-metadata"
+    },
+    "/blogs/business-cyber-security-guide-2026": {
+      "contentHash": "8aaa8ccb0b9c33f0",
+      "lastmod": "2025-07-24",
+      "source": "content-metadata"
+    },
+    "/blogs/cloud-computing-guide-for-businesses": {
+      "contentHash": "6c33727a1576a121",
+      "lastmod": "2026-11-01",
+      "source": "content-metadata"
+    },
+    "/blogs/cloud-erp-vs-traditional-erp-comparison-2026": {
+      "contentHash": "1f506d1b38aa6f01",
+      "lastmod": "2025-07-17",
+      "source": "content-metadata"
+    },
+    "/blogs/cloud-migration-strategy-guide": {
+      "contentHash": "47be15419133f7fc",
+      "lastmod": "2026-11-01",
+      "source": "content-metadata"
+    },
+    "/blogs/cloud-security-best-practices": {
+      "contentHash": "2e81358b8dc7ade1",
+      "lastmod": "2026-11-01",
+      "source": "content-metadata"
+    },
+    "/blogs/complete-digital-marketing-guide-2026": {
+      "contentHash": "325e6a9f469edff5",
+      "lastmod": "2025-07-24",
+      "source": "content-metadata"
+    },
+    "/blogs/complete-erp-implementation-guide-2026": {
+      "contentHash": "5b67224d7e29ce92",
+      "lastmod": "2025-07-25",
+      "source": "content-metadata"
+    },
+    "/blogs/complete-guide-to-crm-software-for-sales-and-lead-management": {
+      "contentHash": "86d69f43dc4cc669",
+      "lastmod": "2026-03-12",
+      "source": "content-metadata"
+    },
+    "/blogs/complete-seo-guide-2026": {
+      "contentHash": "09a164ffcabc2aac",
+      "lastmod": "2025-07-22",
+      "source": "content-metadata"
+    },
+    "/blogs/crm-implementation-guide-india-2026": {
+      "contentHash": "a13e6da62cbc7887",
+      "lastmod": "2025-07-16",
+      "source": "content-metadata"
+    },
+    "/blogs/custom-software-improves-business-productivity-2026": {
+      "contentHash": "58bd6fafd798bec1",
+      "lastmod": "2025-07-18",
+      "source": "content-metadata"
+    },
+    "/blogs/custom-software-vs-ready-made-software-complete-comparison-2026": {
+      "contentHash": "0cbdf1d98039afcb",
+      "lastmod": "2025-07-25",
+      "source": "content-metadata"
+    },
+    "/blogs/custom-software-vs-ready-made-software-for-indian-businesses": {
+      "contentHash": "957ce04dfab9c4c5",
+      "lastmod": "2026-02-28",
+      "source": "content-metadata"
+    },
+    "/blogs/cyber-security-best-practices-2026": {
+      "contentHash": "2d404b4a1b5f0e64",
+      "lastmod": "2025-07-12",
+      "source": "content-metadata"
+    },
+    "/blogs/digital-marketing-trends-india-2026": {
+      "contentHash": "595ac5359383ebc7",
+      "lastmod": "2025-07-12",
+      "source": "content-metadata"
+    },
+    "/blogs/erp-vs-crm-complete-comparison-2026": {
+      "contentHash": "bb02c758a49ad727",
+      "lastmod": "2025-07-23",
+      "source": "content-metadata"
+    },
+    "/blogs/flutter-vs-react-native-comparison-2026": {
+      "contentHash": "e9c80eef31b360e7",
+      "lastmod": "2025-07-21",
+      "source": "content-metadata"
+    },
+    "/blogs/future-artificial-intelligence-business-2026-2030": {
+      "contentHash": "67fbec9f0a59a433",
+      "lastmod": "2025-07-10",
+      "source": "content-metadata"
+    },
+    "/blogs/future-business-automation-2026-2030": {
+      "contentHash": "e0730a4103b81988",
+      "lastmod": "2025-07-11",
+      "source": "content-metadata"
+    },
+    "/blogs/how-ai-automates-businesses-2026": {
+      "contentHash": "b981e351af71c87b",
+      "lastmod": "2025-07-17",
+      "source": "content-metadata"
+    },
+    "/blogs/how-ai-automation-reduces-manual-business-work": {
+      "contentHash": "c4662289df2a666e",
+      "lastmod": "2026-02-10",
+      "source": "content-metadata"
+    },
+    "/blogs/how-ai-transforming-modern-businesses-2026": {
+      "contentHash": "cceb5a56dd084411",
+      "lastmod": "2025-07-25",
+      "source": "content-metadata"
+    },
+    "/blogs/how-crm-improves-sales-performance-2026": {
+      "contentHash": "726535cae7a6bf92",
+      "lastmod": "2025-07-19",
+      "source": "content-metadata"
+    },
+    "/blogs/how-erp-reduces-business-costs-2026": {
+      "contentHash": "b30cb7aa33579747",
+      "lastmod": "2025-07-14",
+      "source": "content-metadata"
+    },
+    "/blogs/how-erp-software-improves-inventory-billing-and-operations": {
+      "contentHash": "ed65ef7366d8d994",
+      "lastmod": "2026-03-08",
+      "source": "content-metadata"
+    },
+    "/blogs/how-implement-ai-business-step-by-step-guide-2026": {
+      "contentHash": "df79b1205ffba888",
+      "lastmod": "2025-07-15",
+      "source": "content-metadata"
+    },
+    "/blogs/how-rank-google-first-page-2026": {
+      "contentHash": "6e1d083682b30fb7",
+      "lastmod": "2025-07-13",
+      "source": "content-metadata"
+    },
+    "/blogs/how-select-software-development-company-india-2026": {
+      "contentHash": "c4400060c657ed96",
+      "lastmod": "2025-07-12",
+      "source": "content-metadata"
+    },
+    "/blogs/how-social-media-increases-sales-2026": {
+      "contentHash": "09d7d4db7a171571",
+      "lastmod": "2025-07-18",
+      "source": "content-metadata"
+    },
+    "/blogs/how-to-protect-customer-data-2026": {
+      "contentHash": "8581c377cf6eb384",
+      "lastmod": "2025-07-15",
+      "source": "content-metadata"
+    },
+    "/blogs/how-whatsapp-and-crm-automation-improve-lead-conversion": {
+      "contentHash": "aeb9236de03b4434",
+      "lastmod": "2026-02-22",
+      "source": "content-metadata"
+    },
+    "/blogs/hrms-software-features-every-growing-company-needs": {
+      "contentHash": "3b7c7af4b4fc1893",
+      "lastmod": "2026-03-04",
+      "source": "content-metadata"
+    },
+    "/blogs/lead-generation-strategies-2026": {
+      "contentHash": "1119cbb1b62eb5ae",
+      "lastmod": "2025-07-15",
+      "source": "content-metadata"
+    },
+    "/blogs/local-seo-guide-indian-businesses-2026": {
+      "contentHash": "c962d5c1ce6f3555",
+      "lastmod": "2025-07-16",
+      "source": "content-metadata"
+    },
+    "/blogs/mobile-app-development-cost-india-2026": {
+      "contentHash": "1dd5fb141c80e732",
+      "lastmod": "2025-07-18",
+      "source": "content-metadata"
+    },
+    "/blogs/mobile-app-development-process-2026": {
+      "contentHash": "821cc06b957fa296",
+      "lastmod": "2025-07-15",
+      "source": "content-metadata"
+    },
+    "/blogs/react-vs-nextjs-business-website": {
+      "contentHash": "cd27cc31f140ab5e",
+      "lastmod": "2026-11-01",
+      "source": "content-metadata"
+    },
+    "/blogs/seo-mistakes-businesses-make-2026": {
+      "contentHash": "16a61cb46f2a2b76",
+      "lastmod": "2025-07-10",
+      "source": "content-metadata"
+    },
+    "/blogs/seo-vs-google-ads-comparison-2026": {
+      "contentHash": "20c8f7580b197e6a",
+      "lastmod": "2025-07-21",
+      "source": "content-metadata"
+    },
+    "/blogs/software-development-lifecycle-complete-guide-2026": {
+      "contentHash": "bc734cb726193ccb",
+      "lastmod": "2025-07-22",
+      "source": "content-metadata"
+    },
+    "/blogs/technical-seo-checklist-2026": {
+      "contentHash": "f6038606691145cb",
+      "lastmod": "2025-07-19",
+      "source": "content-metadata"
+    },
+    "/blogs/top-crm-features-every-business-needs-2026": {
+      "contentHash": "7dae45c298dd794c",
+      "lastmod": "2025-07-13",
+      "source": "content-metadata"
+    },
+    "/blogs/top-cyber-security-threats-2026": {
+      "contentHash": "bd36e2fd02aed95d",
+      "lastmod": "2025-07-21",
+      "source": "content-metadata"
+    },
+    "/blogs/top-software-development-technologies-2026": {
+      "contentHash": "59201348055c506e",
+      "lastmod": "2025-07-15",
+      "source": "content-metadata"
+    },
+    "/blogs/web-development-trends-2027": {
+      "contentHash": "e73a01f6479658af",
+      "lastmod": "2026-11-01",
+      "source": "content-metadata"
+    },
+    "/blogs/website-development-cost-india-2027": {
+      "contentHash": "4b1290adfc835d62",
+      "lastmod": "2026-11-01",
+      "source": "content-metadata"
+    },
+    "/blogs/website-security-checklist-2026": {
+      "contentHash": "ee57a9206b315f53",
+      "lastmod": "2025-07-18",
+      "source": "content-metadata"
+    },
+    "/blogs/website-speed-optimization-guide": {
+      "contentHash": "1fd7310c5eef919e",
+      "lastmod": "2026-11-01",
+      "source": "content-metadata"
+    },
+    "/blogs/what-is-crm-software-complete-guide-2026": {
+      "contentHash": "a3d48f85c261163d",
+      "lastmod": "2025-07-25",
+      "source": "content-metadata"
+    },
+    "/blogs/why-growing-businesses-need-custom-software-instead-of-spreadsheets": {
+      "contentHash": "0c84d8715cf62a7c",
+      "lastmod": "2026-03-15",
+      "source": "content-metadata"
+    },
+    "/calculators": {
+      "contentHash": "180a2cf401a9d124",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/careers": {
+      "contentHash": "e9fb41e28495ec80",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/case-studies": {
+      "contentHash": "939497f92345628c",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/case-studies/astrology-matrimonial-platform": {
+      "contentHash": "55550252674bb38c",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/case-studies/brandvista-ai-marketing": {
+      "contentHash": "9f06c611bc6491e5",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/case-studies/edulearn-gamified-platform": {
+      "contentHash": "e1bfb6a3cba16e69",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/case-studies/factory-attendance-management-software": {
+      "contentHash": "bd6c0f8edddf8ed7",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/case-studies/finsecure-payment-platform": {
+      "contentHash": "5fa06300ebf37f17",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/case-studies/logichain-erp-transformation": {
+      "contentHash": "ff9dca643d582d87",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/case-studies/lubricant-order-management-software": {
+      "contentHash": "534168273128b289",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/case-studies/medicare-patient-platform": {
+      "contentHash": "029d4a9368790f26",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/case-studies/shopnow-ecommerce-scale": {
+      "contentHash": "f78c50395234ab6c",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/comparisons/custom-software-vs-saas": {
+      "contentHash": "9442feb902fab192",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/comparisons/flutter-vs-react-native": {
+      "contentHash": "0d7fbccf2a1ef040",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/comparisons/react-vs-angular": {
+      "contentHash": "173d44122994d651",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/contact": {
+      "contentHash": "300c3c4a5bdc4ba8",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/industries": {
+      "contentHash": "9723556753fe2a92",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/industries/construction": {
+      "contentHash": "304446be4be8eedd",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/industries/education": {
+      "contentHash": "e335bb005b365baa",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/industries/finance": {
+      "contentHash": "adaee15d1cf4c805",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/industries/healthcare": {
+      "contentHash": "0a416db2ba92273d",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/industries/hospitality": {
+      "contentHash": "1a0c5c7590e3c51d",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/industries/manufacturing": {
+      "contentHash": "27f7273d36f3942f",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/industries/real-estate": {
+      "contentHash": "656be8e0e877c0af",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/industries/retail": {
+      "contentHash": "de563be3fba208b5",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/knowledge-center": {
+      "contentHash": "4d0ebca9c50279b8",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/our-journey": {
+      "contentHash": "3921a35aba912719",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/portfolio": {
+      "contentHash": "269aa0f3391f3d9f",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/portfolio/adr-oil-seals": {
+      "contentHash": "8641298bf2399e33",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/aggar-security-services": {
+      "contentHash": "9f818a519f3a00ad",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/aryan-air-conditioner": {
+      "contentHash": "729af8bb64de9369",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/astrology-matrimonial-platform": {
+      "contentHash": "335c0ddbd9dd6a17",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/birth-parenting-classes": {
+      "contentHash": "51a077051914bdee",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/biziffy": {
+      "contentHash": "42592b1ee21b449b",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/delhi-book-store": {
+      "contentHash": "c71f549b615058b7",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/digi-india-solutions": {
+      "contentHash": "2b7e112255374598",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/driven-filmmaking-agency": {
+      "contentHash": "6891d9ad04f575e1",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/emi-plus-care": {
+      "contentHash": "ba035639f21c2fb0",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/factory-attendance-management-software": {
+      "contentHash": "9bb8fec18ead64e7",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/gaming-character": {
+      "contentHash": "f5a02520cecd1491",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/goel-mewe-wale": {
+      "contentHash": "25de503eccbe09a1",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/goyat-trading": {
+      "contentHash": "bd60d7559e3caeb1",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/hartner": {
+      "contentHash": "f30e7ccde56cadff",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/hks-consulting": {
+      "contentHash": "d0905588c540679c",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/hotel-highway-rasoi": {
+      "contentHash": "e93b4a5bbd638633",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/hotel-management-software": {
+      "contentHash": "242ede1e4355bc0d",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/irodov-classes": {
+      "contentHash": "cb16e7aeaaff18f3",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/kvs-total-care": {
+      "contentHash": "862e3f88e8e537a1",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/lawspective": {
+      "contentHash": "3cd29134171c453b",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/legal-sources": {
+      "contentHash": "813f75eae229fcd0",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/lubricant-order-management-software": {
+      "contentHash": "2bf495421c6978d5",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/manovaidya": {
+      "contentHash": "b6b5ae019ead8673",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/mansha-clinic": {
+      "contentHash": "52d1857e8ae34244",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/mental-health-clinic": {
+      "contentHash": "4ef9244d94ad865f",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/motion-design-course": {
+      "contentHash": "a871cf32f5636c8b",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/neet-physics": {
+      "contentHash": "ec50580b9208497f",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/noida-yoga-class": {
+      "contentHash": "cefbb4bf821d7530",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/pitpro": {
+      "contentHash": "983d469bb77362f8",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/prothsahan-team": {
+      "contentHash": "71a2940db0e9fecb",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/renaissance-painting": {
+      "contentHash": "97979eccd5867d70",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/robotic-wet-labs": {
+      "contentHash": "ffc0d67737dc4379",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/sartech-india": {
+      "contentHash": "73d140db3e22d55a",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/sddipl": {
+      "contentHash": "f9faf3b22052ba79",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/sonic-tool-ultrasonic": {
+      "contentHash": "52361066bc5592ec",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/ssp-infra": {
+      "contentHash": "f9518f28f775551d",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/success-workout": {
+      "contentHash": "94d519e02f666d98",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/sunita-enterprises": {
+      "contentHash": "e36b066e0f2b2b03",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/surjeet-india": {
+      "contentHash": "28c1125a4955df52",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/tci-india": {
+      "contentHash": "63753ddbc1bf7430",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/portfolio/toy-boy-india": {
+      "contentHash": "80174a2ae48e5fed",
+      "lastmod": null,
+      "source": "omitted-no-verified-date"
+    },
+    "/services": {
+      "contentHash": "a6844a3ea253dda7",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/ai-automation": {
+      "contentHash": "a9b9c74fb53073a5",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/api-development-integration": {
+      "contentHash": "04cb95ed12974b02",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/attendance-workforce-software": {
+      "contentHash": "f7668c6c7c50b075",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/billing-gst-software": {
+      "contentHash": "11f2d7efac614ca7",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/cloud-solutions": {
+      "contentHash": "6e049ef15349f736",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/crm-solutions": {
+      "contentHash": "d8e872f505e9f0ec",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/custom-software": {
+      "contentHash": "8e1e29eda2f5ab46",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/digital-marketing": {
+      "contentHash": "c713e9708b671548",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/ecommerce-development": {
+      "contentHash": "7cf5c1011143c6eb",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/erp-solutions": {
+      "contentHash": "fd0c9812a6cfe7a4",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/field-sales-tracking-software": {
+      "contentHash": "fa6aa0c4375bb026",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/hospital-management-software": {
+      "contentHash": "d312d51bb4e78127",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/hotel-management-software": {
+      "contentHash": "a2606306ddf2ed53",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/hrms-software": {
+      "contentHash": "ec569fc3915a656c",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/inventory-management-software": {
+      "contentHash": "007f26095e2640c4",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/logistics-software": {
+      "contentHash": "87da0733fd6ed201",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/manufacturing-software": {
+      "contentHash": "0c76e0b650f514e5",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/mobile-app-development": {
+      "contentHash": "4f10b4d48c41a9f7",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/order-management-software": {
+      "contentHash": "c0df4542a32fc54c",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/retail-pos-software": {
+      "contentHash": "424c00434c99bb48",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/saas-development": {
+      "contentHash": "57b520792c161201",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/software-maintenance-support": {
+      "contentHash": "d4d203e87b96f10a",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/ui-ux-design": {
+      "contentHash": "a79a3e36bebd6946",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/website-development": {
+      "contentHash": "d2cf82e0aa9b9b65",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/services/whatsapp-automation": {
+      "contentHash": "f3678b35a89af71a",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    },
+    "/sitemap": {
+      "contentHash": "48962c3ab1980b9a",
+      "lastmod": "2026-11-24",
+      "source": "content-hash-change"
+    }
+  }
+}

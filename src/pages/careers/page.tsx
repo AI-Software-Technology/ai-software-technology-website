@@ -7,16 +7,18 @@ import FloatingCTA from '@/components/feature/FloatingCTA';
 import ScrollToTop from '@/components/feature/ScrollToTop';
 import { jobOpenings, departments, benefits, hiringProcess } from '@/mocks/company';
 import { usePageSEO } from '@/hooks/usePageSEO';
+import { STATIC_ROUTE_KEYWORD_MAP } from '@/seo/keywordMap';
 
 export default function Careers() {
   const navigate = useNavigate();
   const [activeDept, setActiveDept] = useState('All');
   const [selectedJob, setSelectedJob] = useState<typeof jobOpenings[0] | null>(null);
 
+  const seoSpec = STATIC_ROUTE_KEYWORD_MAP['/careers'];
+
   usePageSEO({
-    title: 'Careers at AI Software Technology | Software Engineering & Product Roles',
-    description:
-      'Join AI Software Technology (A Brand of Digi India Solutions) in New Delhi. Explore open roles in Full-Stack Engineering, AI Automation, Mobile Apps, UI/UX Design, and Business Analysis.',
+    title: seoSpec.seoTitle,
+    description: seoSpec.metaDescription,
     canonical: 'https://aisoftwaretechnology.in/careers',
     schema: [
       {

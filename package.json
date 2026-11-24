@@ -32,8 +32,11 @@
   "name": "react",
   "private": true,
   "scripts": {
-    "build": "vite build && node -e \"import('jiti').then(m => m.createJiti(import.meta.url)('./scripts/prerender-routes.mjs'))\"",
-    "prerender": "node -e \"import('jiti').then(m => m.createJiti(import.meta.url)('./scripts/prerender-routes.mjs'))\"",
+    "build": "vite build && npm run prerender && npm run sitemap:generate && npm run sitemap:validate",
+    "prerender": "node scripts/seo/run-jiti.mjs scripts/prerender-routes.mjs",
+    "sitemap:generate": "node scripts/seo/run-jiti.mjs scripts/seo/generate-sitemap.mjs",
+    "sitemap:sync": "node scripts/seo/run-jiti.mjs scripts/seo/generate-sitemap.mjs --sync-manifest",
+    "sitemap:validate": "node scripts/seo/run-jiti.mjs scripts/seo/validate-sitemap.mjs",
     "dev": "vite",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
